@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using LanguageAppBackend.Models; // Assicurati che i tuoi modelli siano nel namespace corretto
+using LanguageAppBackend.Models; 
 
 namespace LanguageAppBackend.Data
 {
