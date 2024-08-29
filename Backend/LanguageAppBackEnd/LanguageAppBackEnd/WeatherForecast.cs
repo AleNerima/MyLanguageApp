@@ -1,4 +1,4 @@
-namespace LanguageAppBackEnd
+namespace LanguageAppBackend
 {
     public class WeatherForecast
     {

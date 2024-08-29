@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace LanguageAppBackEnd.Models
+namespace LanguageAppBackend.Models
 {
     public class Deck
     {
@@ -9,16 +9,20 @@ namespace LanguageAppBackEnd.Models
         public int DeckId { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [MaxLength(100)]
         public string Name { get; set; }
 
-        [StringLength(255)]
+        [MaxLength(255)]
         public string Description { get; set; }
 
-        [ForeignKey("User")]
+        [Required]
         public int UserId { get; set; }
+
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+        [ForeignKey(nameof(UserId))]
         public User User { get; set; }
 
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public ICollection<Flashcard> Flashcards { get; set; }
     }
 }

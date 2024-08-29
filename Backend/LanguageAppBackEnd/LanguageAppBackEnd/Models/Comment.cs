@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace LanguageAppBackEnd.Models
+namespace LanguageAppBackend.Models
 {
     public class Comment
     {
@@ -9,17 +9,20 @@ namespace LanguageAppBackEnd.Models
         public int CommentId { get; set; }
 
         [Required]
-        [StringLength(500)]
+        [MaxLength(500)]
         public string Content { get; set; }
 
-        [ForeignKey("Post")]
+        [Required]
         public int PostId { get; set; }
+        [Required]
+        public int UserId { get; set; }
+
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+        [ForeignKey(nameof(PostId))]
         public Post Post { get; set; }
 
-        [ForeignKey("User")]
-        public int UserId { get; set; }
+        [ForeignKey(nameof(UserId))]
         public User User { get; set; }
-
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }
