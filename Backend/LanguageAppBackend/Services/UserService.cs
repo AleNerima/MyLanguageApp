@@ -18,7 +18,6 @@ namespace LanguageAppBackend.Services
         {
             return await _context.Users
                 .Include(u => u.Decks)
-                .Include(u => u.Flashcards)
                 .Include(u => u.Posts)
                 .Include(u => u.Comments)
                 .Include(u => u.Friendships1)
@@ -71,8 +70,7 @@ namespace LanguageAppBackend.Services
         public async Task<bool> DeleteUserAsync(int userId)
         {
             var user = await _context.Users
-                .Include(u => u.Decks)
-                .Include(u => u.Flashcards)
+                .Include(u => u.Decks)                
                 .Include(u => u.Posts)
                 .Include(u => u.Comments)
                 .Include(u => u.Friendships1)

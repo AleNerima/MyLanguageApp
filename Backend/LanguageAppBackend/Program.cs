@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using LanguageAppBackend.Data;
-using LanguageAppBackend.Services; // Assicurati di includere il namespace corretto per i servizi
+using LanguageAppBackend.Services;
+using System.Text.Json.Serialization; // Assicurati di includere il namespace corretto per i servizi
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,11 +21,18 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 // Aggiungi il servizio di autenticazione
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IDeckService, DeckService>();
+builder.Services.AddScoped<IFlashcardService, FlashcardService>();
 
 // Registrazione IHttpContextAccessor
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+     .AddJsonOptions(options =>
+     {
+         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+         // Altre opzioni di serializzazione possono essere aggiunte qui
+     });
 // Configura Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

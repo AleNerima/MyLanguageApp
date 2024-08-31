@@ -21,15 +21,14 @@ namespace LanguageAppBackend.Models
 
         [Required]
         public int DeckId { get; set; }
-        [Required]
-        public int UserId { get; set; }
-
+       
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+        //gestione ripetizione card in base alla difficoltà
+        public DateTime? NextReviewDate { get; set; }
 
         [ForeignKey(nameof(DeckId))]
         public Deck Deck { get; set; }
 
-        [ForeignKey(nameof(UserId))]
-        public User User { get; set; }
-    }
+       }
 }

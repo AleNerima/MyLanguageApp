@@ -62,12 +62,7 @@ namespace LanguageAppBackend.Data
                 .HasForeignKey(f => f.DeckId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Flashcard>()
-                .HasOne(f => f.User)
-                .WithMany(u => u.Flashcards)
-                .HasForeignKey(f => f.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
-
+           
             // Configuring the relationships for Post
             modelBuilder.Entity<Post>()
                 .HasOne(p => p.User)
