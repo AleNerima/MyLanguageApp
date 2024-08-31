@@ -19,6 +19,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 // Aggiungi il servizio di autenticazione
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 // Registrazione IHttpContextAccessor
 builder.Services.AddHttpContextAccessor();
