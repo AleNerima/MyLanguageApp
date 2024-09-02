@@ -26,6 +26,8 @@ builder.Services.AddScoped<IDeckService, DeckService>();
 builder.Services.AddScoped<IFlashcardService, FlashcardService>();
 builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<IChatService, ChatService>();
+builder.Services.AddScoped<IFriendshipService, FriendshipService>();
 
 // Registrazione IHttpContextAccessor
 builder.Services.AddHttpContextAccessor();

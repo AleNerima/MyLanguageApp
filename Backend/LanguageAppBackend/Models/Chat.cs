@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace LanguageAppBackend.Models
 {
@@ -19,9 +20,11 @@ namespace LanguageAppBackend.Models
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
+        [JsonIgnore]
         [ForeignKey(nameof(UserId1))]
         public User User1 { get; set; }
 
+        [JsonIgnore]
         [ForeignKey(nameof(UserId2))]
         public User User2 { get; set; }
     }
