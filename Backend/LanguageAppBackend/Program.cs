@@ -2,7 +2,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using LanguageAppBackend.Data;
 using LanguageAppBackend.Services;
-using System.Text.Json.Serialization; // Assicurati di includere il namespace corretto per i servizi
+using System.Text.Json.Serialization;
+using LanguageAppBackend.Services.Interfaces; // Assicurati di includere il namespace corretto per i servizi
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,11 +19,13 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.LogoutPath = "/api/auth/logout"; // Percorso per il logout
     });
 
-// Aggiungi il servizio di autenticazione
+// Aggiungi i servizi
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IDeckService, DeckService>();
 builder.Services.AddScoped<IFlashcardService, FlashcardService>();
+builder.Services.AddScoped<IPostService, PostService>();
+builder.Services.AddScoped<ICommentService, CommentService>();
 
 // Registrazione IHttpContextAccessor
 builder.Services.AddHttpContextAccessor();
