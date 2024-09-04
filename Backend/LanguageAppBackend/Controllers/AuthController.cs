@@ -4,8 +4,8 @@ using LanguageAppBackend.Services;
 
 namespace LanguageAppBackend.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
@@ -16,54 +16,28 @@ namespace LanguageAppBackend.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginViewModel loginViewModel)
+        public async Task<IActionResult> Login([FromBody] LoginViewModel loginModel)
         {
-            if (loginViewModel == null)
+            var token = await _authService.AuthenticateUserAsync(loginModel);
+            if (token == null)
             {
-                return BadRequest("Invalid client request");
+                return Unauthorized();
             }
-
-            var user = await _authService.AuthenticateUserAsync(loginViewModel.Email, loginViewModel.Password);
-            if (user == null)
-            {
-                return Unauthorized("Invalid credentials");
-            }
-
-            return Ok("User authenticated successfully");
+            return Ok(new { Token = token });
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterViewModel registerViewModel)
+        public async Task<IActionResult> Register([FromBody] RegisterViewModel registerModel)
         {
-            if (registerViewModel == null)
-            {
-                return BadRequest("Invalid client request");
-            }
-
-            var user = new User
-            {
-                Email = registerViewModel.Email,
-                PasswordHash = registerViewModel.Password, // Assuming this is plain text password
-                Username = registerViewModel.Username,
-                NativeLanguage = registerViewModel.NativeLanguage,
-                TargetLanguage = registerViewModel.TargetLanguage,
-                CreatedAt = DateTime.UtcNow
-            };
-
-            var result = await _authService.RegisterUserAsync(user);
-            if (result == null)
-            {
-                return BadRequest("Registration failed");
-            }
-
-            return Ok("User registered successfully");
+            var user = await _authService.RegisterUserAsync(registerModel);
+            return CreatedAtAction(nameof(Register), new { id = user.UserId }, user);
         }
 
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
             await _authService.LogoutAsync();
-            return Ok("Logged out successfully");
+            return NoContent(); // Il logout è gestito lato client, quindi non c'è necessità di fare nulla qui.
         }
     }
 }

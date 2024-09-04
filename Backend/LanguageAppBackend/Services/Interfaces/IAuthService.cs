@@ -4,8 +4,8 @@ namespace LanguageAppBackend.Services
 {
     public interface IAuthService
     {
-        Task<User> AuthenticateUserAsync(string email, string password);
-        Task<User> RegisterUserAsync(User user);
-        Task LogoutAsync();
+        Task<string> AuthenticateUserAsync(LoginViewModel loginModel);
+        Task<User> RegisterUserAsync(RegisterViewModel registerModel);
+        Task LogoutAsync(); // JWT è stateless, quindi il logout è gestito dal client.
     }
 }
