@@ -17,6 +17,7 @@ namespace LanguageAppBackend.Models
         public string Email { get; set; }
 
         [Required]
+        [JsonIgnore]
         public string PasswordHash { get; set; }
 
         [Required]

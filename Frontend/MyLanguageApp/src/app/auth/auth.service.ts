@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { BehaviorSubject, Observable, catchError, map, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, switchMap, tap, throwError } from 'rxjs';
 import { IUsers } from '../Interfaces/iusers';
 import { IAuthResponse } from '../Interfaces/iauth-response';
 import { IAuthData } from '../Interfaces/iauth-data';
@@ -22,6 +22,7 @@ export class AuthService {
 
   private loginUrl = 'https://localhost:7136/api/Auth/login';
   private registerUrl = 'https://localhost:7136/api/Auth/register';
+  private userUrl = 'https://localhost:7136/api/User';
 
   constructor(private http: HttpClient, private router: Router) {
     this.restoreUser();
@@ -35,13 +36,42 @@ export class AuthService {
     );
   }
 
-  login(authData: IAuthData): Observable<IAuthResponse> {
+  login(authData: IAuthData): Observable<IUsers> {
     return this.http.post<IAuthResponse>(this.loginUrl, authData).pipe(
-      tap((data) => {
-        this.authSubject.next(data.user);
-        localStorage.setItem('datiUser', JSON.stringify(data));
-        this.autoLogout();
+      switchMap((response: IAuthResponse) => {
+        console.log('Login response data:', response);
+        const token = response.token;  // Assumi che accessToken sia il nome corretto
+        if (token) {
+          localStorage.setItem('datiUser', JSON.stringify(response));
+          this.autoLogout();
+
+          const decodedToken = this.jwtHelper.decodeToken(token);
+          const userId = decodedToken?.nameid; // Usa nameid qui
+
+          if (userId) {
+            return this.getUserData(userId);
+          } else {
+            console.error('No userId found in token');
+            this.logout();
+            return throwError(() => new Error('No userId found in token'));
+          }
+        } else {
+          console.error('No token found in login response');
+          this.logout();
+          return throwError(() => new Error('No token found in login response'));
+        }
       }),
+      catchError(this.handleError)
+    );
+  }
+
+  private getUserData(userId: string): Observable<IUsers> {
+    return this.http.get<IUsers>(`${this.userUrl}/${userId}`, {
+      headers: {
+        'Authorization': `Bearer ${this.getAccessData()?.token}`
+      }
+    }).pipe(
+      tap((user) => this.authSubject.next(user)),
       catchError(this.handleError)
     );
   }
@@ -54,39 +84,43 @@ export class AuthService {
 
   autoLogout(): void {
     const accessData = this.getAccessData();
-    if (!accessData || !accessData.accessToken) return;
+    if (!accessData || !accessData.token) return;
 
-    const expDate = this.jwtHelper.getTokenExpirationDate(accessData.accessToken);
+    const expDate = this.jwtHelper.getTokenExpirationDate(accessData.token);
 
     if (!expDate) {
       console.error('Token expiration date is not present in the token.');
-      this.logout(); // Se la data di scadenza non è presente, esegui il logout immediato
+      this.logout();
       return;
     }
 
     const expMs = expDate.getTime() - new Date().getTime();
 
-    // Assicurati che la differenza di tempo sia positiva
     if (expMs > 0) {
       setTimeout(() => {
         this.logout();
       }, expMs);
     } else {
       console.error('Token has already expired');
-      this.logout(); // Logout immediato se il token è scaduto
+      this.logout();
     }
   }
 
   restoreUser(): void {
     const accessData = this.getAccessData();
-    if (!accessData || !accessData.accessToken) return;
+    if (accessData && accessData.token && !this.jwtHelper.isTokenExpired(accessData.token)) {
+      const decodedToken = this.jwtHelper.decodeToken(accessData.token);
+      const userId = decodedToken?.nameid;
 
-    if (this.jwtHelper.isTokenExpired(accessData.accessToken)) {
-      this.logout(); // Logout se il token è scaduto
-      return;
+      if (userId) {
+        this.getUserData(userId).subscribe(user => this.authSubject.next(user));
+        this.autoLogout();
+      } else {
+        this.logout();
+      }
+    } else {
+      this.logout();
     }
-    this.authSubject.next(accessData.user);
-    this.autoLogout();
   }
 
   getAccessData(): IAuthResponse | null {
@@ -103,10 +137,8 @@ export class AuthService {
     let errorMessage = 'An unknown error occurred!';
 
     if (error.error instanceof ErrorEvent) {
-      // Client-side error
       errorMessage = `Error: ${error.error.message}`;
     } else {
-      // Server-side error
       if (error.error && error.error.message) {
         errorMessage = `Error: ${error.error.message}`;
       } else {

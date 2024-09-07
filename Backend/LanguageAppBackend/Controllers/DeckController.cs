@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using LanguageAppBackend.Services;
 using LanguageAppBackend.Models.DeckCardViewModel;
+using Microsoft.AspNetCore.Authorization;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class DeckController : ControllerBase
 {
     private readonly IDeckService _deckService;
