@@ -1,0 +1,13 @@
+<!-- create-flashcard.component.html -->
+<form [formGroup]="flashcardForm" (ngSubmit)="onSubmit()">
+  <label for="term">Termine</label>
+  <input id="term" formControlName="term">
+
+  <label for="definition">Definizione</label>
+  <textarea id="definition" formControlName="definition"></textarea>
+
+  <label for="difficultyLevel">Livello di Difficoltà</label>
+  <input id="difficultyLevel" type="number" formControlName="difficultyLevel">
+
+  <button type="submit">Crea Flashcard</button>
+</form>

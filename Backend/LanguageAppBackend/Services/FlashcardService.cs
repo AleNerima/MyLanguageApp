@@ -79,17 +79,31 @@ namespace LanguageAppBackend.Services
         private DateTime CalculateNextReviewDate(byte difficultyLevel)
         {
             var now = DateTime.UtcNow;
+            var nextReviewDate = now; // Default
+
             switch (difficultyLevel)
             {
-                case 0: // Facile
-                    return now.AddDays(7);
-                case 1: // Difficile
-                    return now.AddHours(1);
-                case 2: // Estremamente Difficile
-                    return now.AddMinutes(10);
+                case 1: // Facile
+                    nextReviewDate = now.AddDays(7); // Aggiungi 7 giorni
+                    break;
+                case 2: // Difficile
+                    nextReviewDate = now.AddHours(1); // Aggiungi 1 ora
+                    break;
+                case 3: // Estremamente Difficile
+                    nextReviewDate = now.AddMinutes(10); // Aggiungi 10 minuti
+                    break;
                 default:
-                    return now;
+                    nextReviewDate = now;
+                    break;
             }
+
+            // Log for debugging
+            Console.WriteLine($"Difficulty Level: {difficultyLevel}");
+            Console.WriteLine($"Now: {now}");
+            Console.WriteLine($"Next Review Date: {nextReviewDate}");
+
+            return nextReviewDate;
         }
+
     }
 }

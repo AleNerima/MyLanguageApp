@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NavbarComponent } from './Shared/navbar/navbar.component';
 import { DeckModule } from './deck/deck.module';
+import { FlashcardModule } from './flashcard/flashcard.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { DeckModule } from './deck/deck.module';
     NgbModule,
     AuthModule,
     DeckModule,
+    FlashcardModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule

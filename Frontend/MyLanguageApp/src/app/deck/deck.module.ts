@@ -8,6 +8,7 @@ import { CreateDeckComponent } from './create-deck/create-deck.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditDeckComponent } from './edit-deck/edit-deck.component';
 import { DeckDetailComponent } from './deck-detail/deck-detail.component';
+import { FlashcardModule } from '../flashcard/flashcard.module';
 
 
 @NgModule({
@@ -21,8 +22,8 @@ import { DeckDetailComponent } from './deck-detail/deck-detail.component';
   imports: [
     CommonModule,
     DeckRoutingModule,
-    FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class DeckModule { }

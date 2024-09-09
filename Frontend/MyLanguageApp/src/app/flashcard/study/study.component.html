@@ -1,0 +1,19 @@
+<!-- Messaggio di avviso quando non ci sono flashcard da studiare -->
+<div *ngIf="isEmpty">
+  <h2>Nessuna flashcard da studiare</h2>
+  <p>Hai finito tutte le flashcard disponibili per questo mazzo.</p>
+  <p>Se vuoi ripetere alcune Card anticipatamente vai su vedi dettagli della card premi modifica e imposta la difficoltà a estremamente difficile</p>
+</div>
+
+<!-- Altri elementi del template per la visualizzazione delle flashcard -->
+<div *ngIf="!isEmpty">
+  <!-- Mostra la flashcard corrente -->
+  <div *ngIf="currentFlashcard">
+    <p>{{ currentFlashcard.term }}</p>
+    <button (click)="toggleDefinition()">Mostra/Nascondi Definizione</button>
+    <p *ngIf="isDefinitionVisible">{{ currentFlashcard.definition }}</p>
+    <button (click)="handleDifficulty(1)">Facile</button>
+    <button (click)="handleDifficulty(2)">Difficile</button>
+    <button (click)="handleDifficulty(3)">Estremamente Difficile</button>
+  </div>
+</div>

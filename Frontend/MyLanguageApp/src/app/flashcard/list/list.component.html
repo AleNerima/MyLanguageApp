@@ -1,0 +1,13 @@
+<!-- list-flashcard.component.html -->
+<div *ngIf="flashcards.length === 0">
+  <p>Nessuna flashcard trovata.</p>
+</div>
+
+<ul *ngIf="flashcards.length > 0">
+  <li *ngFor="let flashcard of flashcards">
+    <p>{{ flashcard.term }} - {{ flashcard.definition }}</p>
+    <button (click)="editFlashcard(flashcard.cardId ?? 0)">Modifica</button>
+    <button (click)="viewFlashcard(flashcard.cardId ?? 0)">Dettagli</button>
+    <button (click)="deleteFlashcard(flashcard.cardId ?? 0)">Elimina</button>
+  </li>
+</ul>

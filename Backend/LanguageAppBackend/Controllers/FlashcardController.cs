@@ -37,9 +37,15 @@ public class FlashcardController : ControllerBase
         return CreatedAtAction(nameof(GetFlashcard), new { id = flashcard.CardId }, flashcard);
     }
 
-    [HttpPut]
-    public async Task<IActionResult> UpdateFlashcard([FromBody] UpdateFlashcardViewModel viewModel)
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateFlashcard(int id, [FromBody] UpdateFlashcardViewModel viewModel)
     {
+        // Verifica che l'ID del viewModel corrisponda all'ID nella route
+        if (id != viewModel.CardId)
+        {
+            return BadRequest("ID non corrispondente.");
+        }
+
         var flashcard = await _flashcardService.UpdateFlashcardAsync(viewModel);
         if (flashcard == null)
             return NotFound();
