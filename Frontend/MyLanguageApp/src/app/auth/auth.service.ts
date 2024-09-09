@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -39,8 +39,7 @@ export class AuthService {
   login(authData: IAuthData): Observable<IUsers> {
     return this.http.post<IAuthResponse>(this.loginUrl, authData).pipe(
       switchMap((response: IAuthResponse) => {
-        console.log('Login response data:', response);
-        const token = response.token;  // Assumi che accessToken sia il nome corretto
+        const token = response.token;
         if (token) {
           localStorage.setItem('datiUser', JSON.stringify(response));
           this.autoLogout();
@@ -67,9 +66,7 @@ export class AuthService {
 
   private getUserData(userId: string): Observable<IUsers> {
     return this.http.get<IUsers>(`${this.userUrl}/${userId}`, {
-      headers: {
-        'Authorization': `Bearer ${this.getAccessData()?.token}`
-      }
+      headers: this.getAuthHeaders()
     }).pipe(
       tap((user) => this.authSubject.next(user)),
       catchError(this.handleError)
@@ -88,20 +85,19 @@ export class AuthService {
 
     const expDate = this.jwtHelper.getTokenExpirationDate(accessData.token);
 
-    if (!expDate) {
-      console.error('Token expiration date is not present in the token.');
-      this.logout();
-      return;
-    }
+    if (expDate) {
+      const expMs = expDate.getTime() - new Date().getTime();
 
-    const expMs = expDate.getTime() - new Date().getTime();
-
-    if (expMs > 0) {
-      setTimeout(() => {
+      if (expMs > 0) {
+        setTimeout(() => {
+          this.logout();
+        }, expMs);
+      } else {
+        console.error('Token has already expired');
         this.logout();
-      }, expMs);
+      }
     } else {
-      console.error('Token has already expired');
+      console.error('Token expiration date is not present in the token.');
       this.logout();
     }
   }
@@ -133,17 +129,21 @@ export class AuthService {
     return this.authSubject.getValue();
   }
 
+  private getAuthHeaders(): HttpHeaders {
+    const token = this.getAccessData()?.token;
+    return new HttpHeaders({
+      'Authorization': token ? `Bearer ${token}` : '',
+      'Content-Type': 'application/json'
+    });
+  }
+
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'An unknown error occurred!';
 
     if (error.error instanceof ErrorEvent) {
       errorMessage = `Error: ${error.error.message}`;
     } else {
-      if (error.error && error.error.message) {
-        errorMessage = `Error: ${error.error.message}`;
-      } else {
-        errorMessage = `Error: ${error.message}`;
-      }
+      errorMessage = error.error && error.error.message ? `Error: ${error.error.message}` : `Error: ${error.message}`;
     }
 
     console.error(errorMessage);

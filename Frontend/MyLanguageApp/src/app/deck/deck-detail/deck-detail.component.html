@@ -1,0 +1,19 @@
+<!-- deck-detail.component.html -->
+<div *ngIf="deck">
+  <h2>{{ deck.name }}</h2>
+  <p>{{ deck.description }}</p>
+
+  <div *ngIf="flashcards.length === 0">
+    <p>Nessuna flashcard trovata.</p>
+  </div>
+
+  <ul *ngIf="flashcards.length > 0">
+    <li *ngFor="let flashcard of flashcards">
+      <p>{{ flashcard.term }} - {{ flashcard.definition }}</p>
+    </li>
+  </ul>
+
+  <button (click)="startStudying()" *ngIf="flashcards.length > 0">
+    Studia
+  </button>
+</div>

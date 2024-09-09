@@ -1,0 +1,16 @@
+<div class="edit-deck-container" *ngIf="deck">
+  <h2>Modifica Deck</h2>
+  <form (ngSubmit)="updateDeck()">
+    <div class="form-group">
+      <label for="name">Nome del Deck</label>
+      <input type="text" id="name" [(ngModel)]="deck.name" name="name" required class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="description">Descrizione</label>
+      <textarea id="description" [(ngModel)]="deck.description" name="description" class="form-control"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Salva Modifiche</button>
+  </form>
+</div>

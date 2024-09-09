@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NavbarComponent } from './Shared/navbar/navbar.component';
+import { DeckModule } from './deck/deck.module';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { NavbarComponent } from './Shared/navbar/navbar.component';
     AppRoutingModule,
     NgbModule,
     AuthModule,
+    DeckModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule

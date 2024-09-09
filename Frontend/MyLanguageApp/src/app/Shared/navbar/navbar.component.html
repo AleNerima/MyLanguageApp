@@ -15,8 +15,12 @@
         <a class="nav-link" href="#" (click)="logout()">Logout</a>
       </li>
       <li class="nav-item" *ngIf="isLoggedIn">
-        <a class="nav-link" routerLink="/profile">Profile</a>
+        <a class="nav-link" routerLink="/Deck">decks</a>
       </li>
+      <li class="nav-item" *ngIf="isLoggedIn">
+        <a class="nav-link" routerLink="/Deck/create">crea deck</a>
+      </li>
+
     </ul>
   </div>
 </nav>

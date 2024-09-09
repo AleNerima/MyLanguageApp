@@ -1,0 +1,13 @@
+<div *ngIf="decks.length === 0">
+  <p>Nessun deck trovato.</p>
+</div>
+
+<ul *ngIf="decks.length > 0">
+  <li *ngFor="let deck of decks">
+    <span>{{ deck.name }}</span> <!-- Assicurati che 'name' esista in IDeck -->
+    <p>{{ deck.description }}</p> <!-- Aggiungi altri dettagli se necessari -->
+    <button (click)="deleteDeck(deck.deckId ?? 0)">Elimina</button> <!-- Usa 'deckId' se è presente in IDeck -->
+    <button (click)="editDeck(deck.deckId ?? 0)">Modifica</button>
+    <button (click)="viewDeckDetails(deck.deckId ?? 0)">Vai al Deck</button>
+  </li>
+</ul>
