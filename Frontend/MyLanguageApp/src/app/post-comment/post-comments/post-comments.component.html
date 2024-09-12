@@ -1,0 +1,15 @@
+<div class="comments-section">
+  <form [formGroup]="commentForm" (ngSubmit)="onSubmitComment()">
+    <textarea formControlName="content" placeholder="Write a comment..." rows="4"></textarea>
+    <button type="submit" [disabled]="commentForm.invalid">Submit</button>
+  </form>
+
+  <div *ngFor="let comment of comments" class="comment">
+    <p>{{ comment.content }}</p>
+    <small>Posted by: {{ comment.userId }}</small>
+    <div *ngIf="currentUserId === comment.userId">
+      <button (click)="onEditComment(comment)">Edit</button>
+      <button (click)="onDeleteComment(comment.commentId)">Delete</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+<form [formGroup]="filterForm" (ngSubmit)="onFilterSubmit()">
+  <label for="startDate">Dal:</label>
+  <input type="date" id="startDate" formControlName="startDate">
+
+  <label for="endDate">Al:</label>
+  <input type="date" id="endDate" formControlName="endDate">
+
+  <label for="language">Language:</label>
+  <input type="text" id="language" formControlName="language">
+
+  <button type="submit">Filter</button>
+</form>
+
+<!-- Pulsante per aggiungere un nuovo post -->
+<button (click)="navigateToCreatePost()">Add Post</button>
+
+<!-- Lista dei post filtrati -->
+<div *ngFor="let post of filteredPosts">
+  <h5>{{ getAuthorName(post.userId) }}</h5>
+  <h5>{{ post.language }}</h5>
+  <p>{{ post.content }}</p>
+
+   <!-- Sezione commenti -->
+   <app-post-comments [postId]="post.id"></app-post-comments>
+</div>
