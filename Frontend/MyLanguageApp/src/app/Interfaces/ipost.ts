@@ -1,6 +1,6 @@
 export interface Ipost {
 
-  id: number;
+  postId: number;
   language: string;
   content: string;
   author: string;

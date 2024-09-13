@@ -36,7 +36,7 @@ export class PostListComponent implements OnInit {
   loadPosts(): void {
     this.postService.getPosts().subscribe(
       posts => {
-        console.log('All posts:', posts); // Aggiungi questo per vedere tutti i post ricevuti
+        console.log('All posts:', posts); // Verifica che tutti i post siano caricati correttamente
         this.posts = posts;
         this.filteredPosts = posts;
         this.loadUsers();
@@ -60,7 +60,6 @@ export class PostListComponent implements OnInit {
   applyFilters(): void {
     const startDate = this.filterForm.value.startDate ? new Date(this.filterForm.value.startDate) : null;
     const endDate = this.filterForm.value.endDate ? new Date(this.filterForm.value.endDate) : null;
-    // Rimuove gli spazi extra e converte in minuscolo
     const language = this.filterForm.value.language?.trim().toLowerCase() || '';
 
     console.log('Applying filters with values:', { startDate, endDate, language });
@@ -68,7 +67,6 @@ export class PostListComponent implements OnInit {
     this.filteredPosts = this.posts.filter(post => {
       const postDate = new Date(post.createdAt);
       const isDateInRange = !startDate || !endDate || (postDate >= startDate && postDate <= endDate);
-      // Converte la lingua del post in minuscolo per la comparazione
       const matchesLanguage = !language || post.language.trim().toLowerCase() === language;
 
       console.log('Post:', post, 'Date in range:', isDateInRange, 'Matches language:', matchesLanguage);
@@ -78,6 +76,7 @@ export class PostListComponent implements OnInit {
 
     console.log('Filtered posts:', this.filteredPosts);
   }
+
 
 
 
@@ -106,5 +105,16 @@ export class PostListComponent implements OnInit {
 
   getAuthorName(userId: number): string {
     return this.users[userId] || 'Unknown';
+  }
+
+  deletePost(postId: number): void {
+    this.postService.deletePost(postId).subscribe(
+      () => {
+        // Rimuovi il post dalla lista dei post
+        this.posts = this.posts.filter(post => post.postId !== postId);
+        this.filteredPosts = this.filteredPosts.filter(post => post.postId !== postId);
+      },
+      error => console.error('Error deleting post:', error)
+    );
   }
 }

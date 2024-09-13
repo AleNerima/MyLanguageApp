@@ -55,4 +55,11 @@ export class PostService {
     console.error(errorMessage);
     return throwError(() => new Error(errorMessage));
   }
+
+  deletePost(postId: number): Observable<void> {
+    const url = `${this.postsUrl}/${postId}`;
+    return this.http.delete<void>(url, { headers: this.getAuthHeaders() }).pipe(
+      catchError(this.handleError)
+    );
+  }
 }

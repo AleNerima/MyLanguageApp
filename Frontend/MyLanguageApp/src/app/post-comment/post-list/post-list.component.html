@@ -19,7 +19,8 @@
   <h5>{{ getAuthorName(post.userId) }}</h5>
   <h5>{{ post.language }}</h5>
   <p>{{ post.content }}</p>
+  <button (click)="deletePost(post.postId)">Delete</button>
 
    <!-- Sezione commenti -->
-   <app-post-comments [postId]="post.id"></app-post-comments>
+   <app-comment [postId]="post.postId"></app-comment>
 </div>

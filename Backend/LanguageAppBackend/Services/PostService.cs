@@ -50,14 +50,23 @@ namespace LanguageAppBackend.Services
 
         public async Task<bool> DeletePostAsync(int postId)
         {
-            var post = await _context.Posts.FindAsync(postId);
+            // Trova il post con i commenti associati
+            var post = await _context.Posts
+                .Include(p => p.Comments) // Include i commenti per la rimozione
+                .SingleOrDefaultAsync(p => p.PostId == postId);
 
             if (post == null)
             {
                 return false;
             }
 
+            // Rimuovi tutti i commenti associati
+            _context.Comments.RemoveRange(post.Comments);
+
+            // Rimuovi il post
             _context.Posts.Remove(post);
+
+            // Salva le modifiche nel database
             await _context.SaveChangesAsync();
 
             return true;

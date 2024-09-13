@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, catchError, map, throwError } from 'rxjs';
 import { Icomment } from '../Interfaces/icomment';
 import { AuthService } from '../auth/auth.service';
 
@@ -12,34 +12,20 @@ export class CommentService {
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  getComments(postId: number): Observable<Icomment[]> {
-    return this.http.get<Icomment[]>(`${this.commentsUrl}/post/${postId}`, {
-      headers: this.getAuthHeaders()
-    }).pipe(
-      catchError(this.handleError)
+  getCommentsByPostId(postId: number): Observable<Icomment[]> {
+    return this.http.get<any>(`${this.commentsUrl}/post/${postId}`).pipe(
+      map(response => response.$values)  // Estrae l'array di commenti
     );
   }
 
-  addComment(comment: Icomment): Observable<Icomment> {
-    return this.http.post<Icomment>(this.commentsUrl, comment, {
-      headers: this.getAuthHeaders()
-    }).pipe(
-      catchError(this.handleError)
-    );
-  }
-
-  updateComment(commentId: number, comment: Icomment): Observable<Icomment> {
-    return this.http.put<Icomment>(`${this.commentsUrl}/${commentId}`, comment, {
-      headers: this.getAuthHeaders()
-    }).pipe(
+  createComment(comment: Icomment): Observable<Icomment> {
+    return this.http.post<Icomment>(this.commentsUrl, comment, { headers: this.getAuthHeaders() }).pipe(
       catchError(this.handleError)
     );
   }
 
   deleteComment(commentId: number): Observable<void> {
-    return this.http.delete<void>(`${this.commentsUrl}/${commentId}`, {
-      headers: this.getAuthHeaders()
-    }).pipe(
+    return this.http.delete<void>(`${this.commentsUrl}/${commentId}`, { headers: this.getAuthHeaders() }).pipe(
       catchError(this.handleError)
     );
   }

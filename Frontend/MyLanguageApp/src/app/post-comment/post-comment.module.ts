@@ -5,7 +5,8 @@ import { PostCommentComponent } from './post-comment.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PostListComponent } from './post-list/post-list.component';
 import { CreatePostComponent } from './create-post/create-post.component';
-import { PostCommentsComponent } from './post-comments/post-comments.component';
+import { CommentComponent } from './comment/comment.component';
+
 
 
 
@@ -14,7 +15,8 @@ import { PostCommentsComponent } from './post-comments/post-comments.component';
     PostCommentComponent,
     PostListComponent,
     CreatePostComponent,
-    PostCommentsComponent,
+    CommentComponent,
+
 
   ],
   imports: [
