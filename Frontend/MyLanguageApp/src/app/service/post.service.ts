@@ -30,6 +30,13 @@ export class PostService {
     );
   }
 
+  getPost(postId: number): Observable<Ipost> {
+    return this.http.get<Ipost>(`${this.postsUrl}/${postId}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+
 
   createPost(post: Ipost): Observable<Ipost> {
     return this.http.post<Ipost>(this.postsUrl, post, { headers: this.getAuthHeaders() }).pipe(

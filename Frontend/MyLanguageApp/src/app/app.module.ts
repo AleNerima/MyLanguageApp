@@ -11,6 +11,7 @@ import { NavbarComponent } from './Shared/navbar/navbar.component';
 import { DeckModule } from './deck/deck.module';
 import { FlashcardModule } from './flashcard/flashcard.module';
 import { PostCommentModule } from './post-comment/post-comment.module';
+import { UserProfileModule } from './user-profile/user-profile.module';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { PostCommentModule } from './post-comment/post-comment.module';
     NgbModule,
     AuthModule,
     DeckModule,
+    UserProfileModule,
     FlashcardModule,
     PostCommentModule,
     FormsModule,

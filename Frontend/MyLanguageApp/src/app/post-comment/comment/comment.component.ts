@@ -12,6 +12,7 @@ export class CommentComponent implements OnInit {
   @Input() postId!: number;  // Usa postId come input
   comments: Icomment[] = [];
   newComment: string = '';
+  currentUserId: number = 0; // Aggiungi una variabile per l'ID dell'utente corrente
 
   constructor(
     private commentService: CommentService,
@@ -21,6 +22,7 @@ export class CommentComponent implements OnInit {
   ngOnInit(): void {
     if (this.postId) {
       this.loadComments();
+      this.currentUserId = this.authService.getCurrentUser()?.userId || 0; // Ottieni l'ID dell'utente corrente
     } else {
       console.error('Post ID is undefined');
     }
@@ -50,7 +52,7 @@ export class CommentComponent implements OnInit {
     const comment: Icomment = {
       commentId: 0,
       content: this.newComment,
-      postId: this.postId,  // Usa postId
+      postId: this.postId,
       userId: user.userId,
       createdAt: new Date()
     };
@@ -64,10 +66,15 @@ export class CommentComponent implements OnInit {
   }
 
   deleteComment(commentId: number): void {
-    this.commentService.deleteComment(commentId).subscribe(() => {
-      this.comments = this.comments.filter(c => c.commentId !== commentId);
-    }, error => {
-      console.error('Error deleting comment:', error);
-    });
+    const comment = this.comments.find(c => c.commentId === commentId);
+    if (comment && comment.userId === this.currentUserId) {
+      this.commentService.deleteComment(commentId).subscribe(() => {
+        this.comments = this.comments.filter(c => c.commentId !== commentId);
+      }, error => {
+        console.error('Error deleting comment:', error);
+      });
+    } else {
+      console.error('Not authorized to delete this comment.');
+    }
   }
 }

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { PostService } from '../../service/post.service';
 import { UserService } from '../../service/users.service';
 import { Ipost } from '../../Interfaces/ipost';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-post-list',
@@ -12,15 +13,17 @@ import { Ipost } from '../../Interfaces/ipost';
 })
 export class PostListComponent implements OnInit {
   posts: Ipost[] = [];
-  filteredPosts: Ipost[] = []; // Array per i post filtrati
+  filteredPosts: Ipost[] = [];
   filterForm: FormGroup;
-  users: { [id: number]: string } = {}; // Mappa per memorizzare gli username
+  users: { [id: number]: string } = {};
+  currentUserId: number = 0; // Aggiungi per tenere traccia dell'ID dell'utente corrente
 
   constructor(
     private postService: PostService,
     private fb: FormBuilder,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private authService: AuthService // Aggiungi il servizio Auth
   ) {
     this.filterForm = this.fb.group({
       startDate: [''],
@@ -30,13 +33,13 @@ export class PostListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.currentUserId = this.authService.getCurrentUser()?.userId || 0; // Ottieni l'ID dell'utente corrente
     this.loadPosts();
   }
 
   loadPosts(): void {
     this.postService.getPosts().subscribe(
       posts => {
-        console.log('All posts:', posts); // Verifica che tutti i post siano caricati correttamente
         this.posts = posts;
         this.filteredPosts = posts;
         this.loadUsers();
@@ -45,9 +48,7 @@ export class PostListComponent implements OnInit {
     );
   }
 
-
   loadUsers(): void {
-    // Carica gli utenti se necessario per ottenere gli username
     const userIds = Array.from(new Set(this.posts.map(post => post.userId)));
     userIds.forEach(userId => {
       this.userService.getUser(userId).subscribe(
@@ -62,24 +63,14 @@ export class PostListComponent implements OnInit {
     const endDate = this.filterForm.value.endDate ? new Date(this.filterForm.value.endDate) : null;
     const language = this.filterForm.value.language?.trim().toLowerCase() || '';
 
-    console.log('Applying filters with values:', { startDate, endDate, language });
-
     this.filteredPosts = this.posts.filter(post => {
       const postDate = new Date(post.createdAt);
       const isDateInRange = !startDate || !endDate || (postDate >= startDate && postDate <= endDate);
       const matchesLanguage = !language || post.language.trim().toLowerCase() === language;
 
-      console.log('Post:', post, 'Date in range:', isDateInRange, 'Matches language:', matchesLanguage);
-
       return isDateInRange && matchesLanguage;
     });
-
-    console.log('Filtered posts:', this.filteredPosts);
   }
-
-
-
-
 
   onFilterSubmit(): void {
     const filter = {
@@ -90,14 +81,12 @@ export class PostListComponent implements OnInit {
 
     this.postService.getPosts(filter).subscribe(
       posts => {
-        console.log('Posts received:', posts); // Aggiungi questo per il debug
         this.posts = posts;
-        this.applyFilters(); // Applica il filtraggio sul frontend
+        this.applyFilters();
       },
       error => console.error('Error loading posts:', error)
     );
   }
-
 
   navigateToCreatePost(): void {
     this.router.navigate(['/posts/create']);
@@ -108,13 +97,20 @@ export class PostListComponent implements OnInit {
   }
 
   deletePost(postId: number): void {
-    this.postService.deletePost(postId).subscribe(
-      () => {
-        // Rimuovi il post dalla lista dei post
-        this.posts = this.posts.filter(post => post.postId !== postId);
-        this.filteredPosts = this.filteredPosts.filter(post => post.postId !== postId);
-      },
-      error => console.error('Error deleting post:', error)
-    );
+    if (this.currentUserId) {
+      this.postService.getPost(postId).subscribe(post => {
+        if (post.userId === this.currentUserId) {
+          this.postService.deletePost(postId).subscribe(
+            () => {
+              this.posts = this.posts.filter(post => post.postId !== postId);
+              this.filteredPosts = this.filteredPosts.filter(post => post.postId !== postId);
+            },
+            error => console.error('Error deleting post:', error)
+          );
+        } else {
+          console.error('Non autorizzato a eliminare questo post.');
+        }
+      });
+    }
   }
 }

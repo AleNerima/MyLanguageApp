@@ -15,11 +15,14 @@
 <button (click)="navigateToCreatePost()">Add Post</button>
 
 <!-- Lista dei post filtrati -->
+ <h4>Post</h4>
 <div *ngFor="let post of filteredPosts">
-  <h5>{{ getAuthorName(post.userId) }}</h5>
+  <h5>
+    <a [routerLink]="['/UserProfile/profile', post.userId]">{{ getAuthorName(post.userId) }}</a>
+  </h5>
   <h5>{{ post.language }}</h5>
   <p>{{ post.content }}</p>
-  <button (click)="deletePost(post.postId)">Delete</button>
+  <button *ngIf="post.userId === currentUserId" (click)="deletePost(post.postId)">Delete</button>
 
    <!-- Sezione commenti -->
    <app-comment [postId]="post.postId"></app-comment>

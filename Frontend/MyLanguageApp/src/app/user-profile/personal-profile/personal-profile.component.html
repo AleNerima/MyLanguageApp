@@ -1,0 +1,16 @@
+<div class="personal-profile">
+  <h1 *ngIf="!isLoading && !errorMessage">{{ user?.username }}'s Profile</h1>
+  <div *ngIf="isLoading">
+    <p>Caricamento del profilo in corso...</p>
+  </div>
+  <div *ngIf="errorMessage">
+    <p>{{ errorMessage }}</p>
+  </div>
+  <div *ngIf="user">
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Lingua Nativa:</strong> {{ user.nativeLanguage }}</p>
+    <p><strong>Lingua Target:</strong> {{ user.targetLanguage }}</p>
+    <p><strong>Registrato dal:</strong> {{ user.createdAt | date }}</p>
+  </div>
+</div>
