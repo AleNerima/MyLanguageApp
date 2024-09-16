@@ -59,16 +59,19 @@ public class FriendshipController : ControllerBase
         return Ok(createdFriendship);
     }
 
+
     // Aggiorna lo stato di una richiesta di amicizia (accetta o rifiuta)
-    [HttpPut("{friendshipId}/updateStatus")]
-    public async Task<IActionResult> UpdateFriendshipStatus(int friendshipId, [FromBody] FriendshipViewModel model)
+    [HttpPut("{friendshipId}/status")]
+    public async Task<IActionResult> UpdateStatus(int friendshipId, [FromBody] FriendshipStatusUpdateModel model)
     {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
         var friendship = await _friendshipService.GetFriendshipByIdAsync(friendshipId);
         if (friendship == null)
             return NotFound();
 
-        // Aggiorna lo stato
-        friendship.Status = model.Status;
+        friendship.Status = (FriendshipStatus)model.Status; // Convertilo in enum
         var updated = await _friendshipService.UpdateFriendshipAsync(friendship);
 
         if (!updated)
@@ -76,6 +79,10 @@ public class FriendshipController : ControllerBase
 
         return Ok(friendship);
     }
+
+
+
+
 
     // Elimina una richiesta di amicizia
     [HttpDelete("{friendshipId}")]
@@ -85,4 +92,13 @@ public class FriendshipController : ControllerBase
             return NoContent();
         return NotFound();
     }
+
+    // In FriendshipController.cs (o un nome simile)
+    [HttpGet("checkRequest/{userId1}/{userId2}")]
+    public IActionResult CheckExistingRequest(int userId1, int userId2)
+    {
+        var exists = _friendshipService.CheckRequestExists(userId1, userId2);
+        return Ok(exists);
+    }
+
 }

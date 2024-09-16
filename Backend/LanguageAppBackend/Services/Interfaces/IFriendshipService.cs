@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using LanguageAppBackend.Models;
+﻿using LanguageAppBackend.Models;
 
 namespace LanguageAppBackend.Services.Interfaces
 {
@@ -12,5 +10,6 @@ namespace LanguageAppBackend.Services.Interfaces
         Task<bool> CreateFriendshipAsync(Friendship friendship);
         Task<bool> UpdateFriendshipAsync(Friendship friendship); // Per accettare/rifiutare richieste
         Task<bool> DeleteFriendshipAsync(int friendshipId);
+        public bool CheckRequestExists(int userId1, int userId2);
     }
 }

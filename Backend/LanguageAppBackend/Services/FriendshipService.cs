@@ -52,6 +52,8 @@ public class FriendshipService : IFriendshipService
         return await _context.SaveChangesAsync() > 0;
     }
 
+
+
     // Elimina una richiesta di amicizia
     public async Task<bool> DeleteFriendshipAsync(int friendshipId)
     {
@@ -62,4 +64,15 @@ public class FriendshipService : IFriendshipService
         _context.Friendships.Remove(friendship);
         return await _context.SaveChangesAsync() > 0;
     }
+
+    public bool CheckRequestExists(int userId1, int userId2)
+    {
+        return _context.Friendships.Any(f =>
+            ((f.UserId1 == userId1 && f.UserId2 == userId2) ||
+            (f.UserId1 == userId2 && f.UserId2 == userId1)) &&
+            f.Status == FriendshipStatus.Pending);
+    }
+
+
+
 }

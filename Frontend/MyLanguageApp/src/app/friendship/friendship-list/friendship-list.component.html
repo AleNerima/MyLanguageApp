@@ -1,0 +1,30 @@
+<!-- friendship-list.component.html -->
+<div>
+  <h2>Le tue amicizie</h2>
+  <div *ngIf="friendships.length > 0">
+    <h3>Amicizie Accettate</h3>
+    <div *ngFor="let friendship of friendships">
+      <p>
+        Amico: {{ getUserName(friendship.userId1 === userId ? friendship.userId2 : friendship.userId1) }}
+      </p>
+    </div>
+  </div>
+  <div *ngIf="friendships.length === 0">
+    <p>Non hai amicizie.</p>
+  </div>
+
+  <h2>Richieste in Sospeso</h2>
+  <div *ngIf="pendingRequests.length > 0">
+    <div *ngFor="let request of pendingRequests">
+      <p>
+        Richiesta da: {{ getUserName(request.userId1 === userId ? request.userId2 : request.userId1) }}
+        - Stato: {{ request.status }}
+      </p>
+      <button (click)="acceptRequest(request.friendshipId)">Accetta</button>
+      <button (click)="rejectRequest(request.friendshipId)">Rifiuta</button>
+    </div>
+  </div>
+  <div *ngIf="pendingRequests.length === 0">
+    <p>Non hai richieste di amicizia in sospeso.</p>
+  </div>
+</div>

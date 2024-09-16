@@ -12,6 +12,7 @@ import { DeckModule } from './deck/deck.module';
 import { FlashcardModule } from './flashcard/flashcard.module';
 import { PostCommentModule } from './post-comment/post-comment.module';
 import { UserProfileModule } from './user-profile/user-profile.module';
+import { FriendshipModule } from './friendship/friendship.module';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { UserProfileModule } from './user-profile/user-profile.module';
     UserProfileModule,
     FlashcardModule,
     PostCommentModule,
+    FriendshipModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule

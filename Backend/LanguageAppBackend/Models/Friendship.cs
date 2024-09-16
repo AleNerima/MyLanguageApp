@@ -35,8 +35,8 @@ namespace LanguageAppBackend.Models
     // Enum per lo stato dell'amicizia
     public enum FriendshipStatus
     {
-        Pending,   // Richiesta in attesa
-        Accepted,  // Amicizia accettata
-        Rejected   // Richiesta rifiutata
+        Pending = 0,   // Richiesta in attesa
+        Accepted = 1,  // Amicizia accettata
+        Rejected = 2   // Richiesta rifiutata
     }
 }
