@@ -1,12 +1,15 @@
 ﻿using LanguageAppBackend.Models;
 
-namespace LanguageAppBackend.Services.Interfaces
+namespace LanguageAppBackend.Services
 {
     public interface IChatService
     {
-        Task<IEnumerable<Chat>> GetChatsByUserIdAsync(int userId);
-        Task<Chat> GetChatByIdAsync(int chatId);
-        Task<bool> CreateChatAsync(Chat chat);
-        Task<bool> DeleteChatAsync(int chatId);
+        Task<Chat> CreateChatAsync(int userId1, int userId2);
+        Task<IEnumerable<ChatMessage>> GetMessagesAsync(int chatId);
+        Task SendMessageAsync(int chatId, int senderId, int receiverId, string messageText);
+        Task UpdateMessageStatusAsync(int messageId, int userId, bool isRead);
+
+        Task<Chat> GetChatDetailsAsync(int chatId);
+        Task<int> GetChatIdAsync(int userId1, int userId2);
     }
 }

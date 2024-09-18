@@ -4,6 +4,7 @@ using LanguageAppBackend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LanguageAppBackend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240917095244_AddMessageStatus")]
+    partial class AddMessageStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,6 +33,14 @@ namespace LanguageAppBackend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ChatId"));
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
                     b.Property<int>("UserId1")
                         .HasColumnType("int");
 
@@ -43,42 +54,6 @@ namespace LanguageAppBackend.Migrations
                     b.HasIndex("UserId2");
 
                     b.ToTable("Chats");
-                });
-
-            modelBuilder.Entity("LanguageAppBackend.Models.ChatMessage", b =>
-                {
-                    b.Property<int>("MessageId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MessageId"));
-
-                    b.Property<int>("ChatId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("MessageText")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<int>("ReceiverId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SenderId")
-                        .HasColumnType("int");
-
-                    b.HasKey("MessageId");
-
-                    b.HasIndex("ChatId");
-
-                    b.HasIndex("ReceiverId");
-
-                    b.HasIndex("SenderId");
-
-                    b.ToTable("ChatMessages");
                 });
 
             modelBuilder.Entity("LanguageAppBackend.Models.Comment", b =>
@@ -220,18 +195,18 @@ namespace LanguageAppBackend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MessageStatusId"));
 
+                    b.Property<int>("ChatId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsRead")
                         .HasColumnType("bit");
-
-                    b.Property<int>("MessageId")
-                        .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("MessageStatusId");
 
-                    b.HasIndex("MessageId");
+                    b.HasIndex("ChatId");
 
                     b.HasIndex("UserId");
 
@@ -328,33 +303,6 @@ namespace LanguageAppBackend.Migrations
                     b.Navigation("User2");
                 });
 
-            modelBuilder.Entity("LanguageAppBackend.Models.ChatMessage", b =>
-                {
-                    b.HasOne("LanguageAppBackend.Models.Chat", "Chat")
-                        .WithMany("Messages")
-                        .HasForeignKey("ChatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LanguageAppBackend.Models.User", "Receiver")
-                        .WithMany("ReceivedMessages")
-                        .HasForeignKey("ReceiverId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("LanguageAppBackend.Models.User", "Sender")
-                        .WithMany("SentMessages")
-                        .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Chat");
-
-                    b.Navigation("Receiver");
-
-                    b.Navigation("Sender");
-                });
-
             modelBuilder.Entity("LanguageAppBackend.Models.Comment", b =>
                 {
                     b.HasOne("LanguageAppBackend.Models.Post", "Post")
@@ -417,9 +365,9 @@ namespace LanguageAppBackend.Migrations
 
             modelBuilder.Entity("LanguageAppBackend.Models.MessageStatus", b =>
                 {
-                    b.HasOne("LanguageAppBackend.Models.ChatMessage", "ChatMessage")
-                        .WithMany()
-                        .HasForeignKey("MessageId")
+                    b.HasOne("LanguageAppBackend.Models.Chat", "Chat")
+                        .WithMany("MessageStatuses")
+                        .HasForeignKey("ChatId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -429,7 +377,7 @@ namespace LanguageAppBackend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ChatMessage");
+                    b.Navigation("Chat");
 
                     b.Navigation("User");
                 });
@@ -447,7 +395,7 @@ namespace LanguageAppBackend.Migrations
 
             modelBuilder.Entity("LanguageAppBackend.Models.Chat", b =>
                 {
-                    b.Navigation("Messages");
+                    b.Navigation("MessageStatuses");
                 });
 
             modelBuilder.Entity("LanguageAppBackend.Models.Deck", b =>
@@ -477,10 +425,6 @@ namespace LanguageAppBackend.Migrations
                     b.Navigation("MessageStatuses");
 
                     b.Navigation("Posts");
-
-                    b.Navigation("ReceivedMessages");
-
-                    b.Navigation("SentMessages");
                 });
 #pragma warning restore 612, 618
         }

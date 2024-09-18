@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace LanguageAppBackend.Models
@@ -11,14 +11,9 @@ namespace LanguageAppBackend.Models
 
         [Required]
         public int UserId1 { get; set; }
+
         [Required]
         public int UserId2 { get; set; }
-
-        [Required]
-        [MaxLength(1000)]
-        public string Message { get; set; }
-
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         [JsonIgnore]
         [ForeignKey(nameof(UserId1))]
@@ -27,5 +22,8 @@ namespace LanguageAppBackend.Models
         [JsonIgnore]
         [ForeignKey(nameof(UserId2))]
         public User User2 { get; set; }
+
+        [JsonIgnore]
+        public ICollection<ChatMessage> Messages { get; set; } = new List<ChatMessage>();
     }
 }

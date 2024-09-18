@@ -1,0 +1,18 @@
+<!-- src/app/chat/chat-conversation/chat-conversation.component.html -->
+
+<div *ngIf="isLoading">
+  Caricamento in corso...
+</div>
+
+<div *ngIf="errorMessage" class="error">
+  {{ errorMessage }}
+</div>
+
+<div *ngIf="!isLoading && !errorMessage">
+  <div *ngFor="let message of messages">
+    <p><strong>{{ message.senderId }}:</strong> {{ message.messageText }}</p>
+  </div>
+
+  <textarea [(ngModel)]="newMessageText" placeholder="Scrivi un messaggio..."></textarea>
+  <button (click)="sendMessage()">Invia</button>
+</div>

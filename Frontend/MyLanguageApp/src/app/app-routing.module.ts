@@ -7,7 +7,8 @@ const routes: Routes = [
   { path: 'Flashcard', loadChildren: () => import('./flashcard/flashcard.module').then(m => m.FlashcardModule) },
   { path: 'PostComment', loadChildren: () => import('./post-comment/post-comment.module').then(m => m.PostCommentModule) },
   { path: 'UserProfile', loadChildren: () => import('./user-profile/user-profile.module').then(m => m.UserProfileModule) },
-  { path: 'Friendship', loadChildren: () => import('./friendship/friendship.module').then(m => m.FriendshipModule) }
+  { path: 'Friendship', loadChildren: () => import('./friendship/friendship.module').then(m => m.FriendshipModule) },
+  { path: 'Chat', loadChildren: () => import('./chat/chat.module').then(m => m.ChatModule) }
 ];
 
 @NgModule({

@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using LanguageAppBackend.Models; 
+using LanguageAppBackend.Models;
 
 namespace LanguageAppBackend.Data
 {
@@ -17,6 +17,8 @@ namespace LanguageAppBackend.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Friendship> Friendships { get; set; }
         public DbSet<Chat> Chats { get; set; }
+        public DbSet<ChatMessage> ChatMessages { get; set; } // Aggiungi questo DbSet per i messaggi della chat
+        public DbSet<MessageStatus> MessageStatuses { get; set; } // Aggiungi questo DbSet per lo stato dei messaggi
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -62,7 +64,6 @@ namespace LanguageAppBackend.Data
                 .HasForeignKey(f => f.DeckId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-           
             // Configuring the relationships for Post
             modelBuilder.Entity<Post>()
                 .HasOne(p => p.User)
@@ -82,6 +83,39 @@ namespace LanguageAppBackend.Data
                 .WithMany(u => u.Comments)
                 .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // Configuring the relationships for ChatMessage
+            modelBuilder.Entity<ChatMessage>()
+                .HasOne(cm => cm.Chat)
+                .WithMany(c => c.Messages)
+                .HasForeignKey(cm => cm.ChatId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ChatMessage>()
+                .HasOne(cm => cm.Sender)
+                .WithMany(u => u.SentMessages)
+                .HasForeignKey(cm => cm.SenderId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ChatMessage>()
+                .HasOne(cm => cm.Receiver)
+                .WithMany(u => u.ReceivedMessages)
+                .HasForeignKey(cm => cm.ReceiverId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Configuring the relationships for MessageStatus
+            modelBuilder.Entity<MessageStatus>()
+                .HasOne(ms => ms.ChatMessage)
+                .WithMany() // Not necessary to define a collection on ChatMessage
+                .HasForeignKey(ms => ms.MessageId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<MessageStatus>()
+                .HasOne(ms => ms.User)
+                .WithMany(u => u.MessageStatuses)
+                .HasForeignKey(ms => ms.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
+

@@ -44,6 +44,13 @@ namespace LanguageAppBackend.Models
         public ICollection<Chat> ChatsAsUser1 { get; set; } // Chats where the user is the first participant
         [JsonIgnore]
         public ICollection<Chat> ChatsAsUser2 { get; set; } // Chats where the user is the second participant
+        [JsonIgnore]
+        public ICollection<MessageStatus> MessageStatuses { get; set; }
+        [JsonIgnore]
+        public ICollection<ChatMessage> SentMessages { get; set; } = new List<ChatMessage>();
+        [JsonIgnore]
+        public ICollection<ChatMessage> ReceivedMessages { get; set; } = new List<ChatMessage>();
+
     }
 
 }

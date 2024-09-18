@@ -1,0 +1,26 @@
+.chat-list-container {
+  padding: 10px;
+  background-color: #fff;
+  height: 100%;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+li:hover {
+  background-color: #f1f1f1;
+}
+
+button {
+  margin-bottom: 10px;
+}

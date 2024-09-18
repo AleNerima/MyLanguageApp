@@ -1,0 +1,15 @@
+<div *ngIf="isLoading" class="loading">
+  Caricamento...
+</div>
+
+<div *ngIf="errorMessage" class="error">
+  {{ errorMessage }}
+</div>
+
+<div *ngIf="!isLoading && !errorMessage">
+  <ul class="friend-list">
+    <li *ngFor="let friend of friends" (click)="selectChat(friend.userId)">
+      <span>{{ friend.username }}</span>
+    </li>
+  </ul>
+</div>

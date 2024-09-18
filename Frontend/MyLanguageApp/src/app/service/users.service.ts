@@ -1,9 +1,10 @@
 // user.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { forkJoin, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service'; // Assumi che esista un AuthService
+import { IUsers } from '../Interfaces/iusers';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,13 @@ export class UserService {
       'Authorization': token ? `Bearer ${token}` : '',
       'Content-Type': 'application/json'
     });
+  }
+
+  getUsersByIds(userIds: number[]): Observable<IUsers[]> {
+    const requests = userIds.map(userId => this.getUser(userId));
+    return forkJoin(requests).pipe(
+      catchError(this.handleError)
+    );
   }
 
   private handleError(error: HttpErrorResponse) {

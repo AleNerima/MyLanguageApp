@@ -13,6 +13,7 @@ import { FlashcardModule } from './flashcard/flashcard.module';
 import { PostCommentModule } from './post-comment/post-comment.module';
 import { UserProfileModule } from './user-profile/user-profile.module';
 import { FriendshipModule } from './friendship/friendship.module';
+import { ChatModule } from './chat/chat.module';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { FriendshipModule } from './friendship/friendship.module';
     FlashcardModule,
     PostCommentModule,
     FriendshipModule,
+    ChatModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule

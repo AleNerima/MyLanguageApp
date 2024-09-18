@@ -1,62 +1,68 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using LanguageAppBackend.Models;
-using LanguageAppBackend.Services.Interfaces;
+using LanguageAppBackend.Services;
+using Microsoft.EntityFrameworkCore;
 
-[ApiController]
-[Route("api/[controller]")]
-public class ChatController : ControllerBase
+namespace LanguageAppBackend.Controllers
 {
-    private readonly IChatService _chatService;
-
-    public ChatController(IChatService chatService)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ChatController : ControllerBase
     {
-        _chatService = chatService;
-    }
+        private readonly IChatService _chatService;
 
-    [HttpGet("byUser/{userId}")]
-    public async Task<ActionResult<IEnumerable<Chat>>> GetChatsByUserId(int userId)
-    {
-        var chats = await _chatService.GetChatsByUserIdAsync(userId);
-        return Ok(chats);
-    }
-
-    [HttpGet("byId/{chatId}")]
-    public async Task<ActionResult<Chat>> GetChatById(int chatId)
-    {
-        var chat = await _chatService.GetChatByIdAsync(chatId);
-        if (chat == null)
-            return NotFound();
-        return Ok(chat);
-    }
-
-
-    [HttpPost]
-    public async Task<ActionResult> CreateChat([FromBody] ChatViewModel chatViewModel)
-    {
-        if (ModelState.IsValid)
+        public ChatController(IChatService chatService)
         {
-            var chat = new Chat
-            {
-                UserId1 = chatViewModel.UserId1,
-                UserId2 = chatViewModel.UserId2,
-                Message = chatViewModel.Message
-            };
-
-            if (await _chatService.CreateChatAsync(chat))
-                return CreatedAtAction(nameof(GetChatById), new { chatId = chat.ChatId }, chat);
-
-            return BadRequest();
+            _chatService = chatService;
         }
 
-        return BadRequest(ModelState);
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateChat(int userId1, int userId2)
+        {
+            var chat = await _chatService.CreateChatAsync(userId1, userId2);
+            return Ok(chat);
+        }
+
+        [HttpGet("messages/{chatId}")]
+        public async Task<IActionResult> GetMessages(int chatId)
+        {
+            var messages = await _chatService.GetMessagesAsync(chatId);
+            return Ok(messages);
+        }
+
+        [HttpPost("send")]
+        public async Task<IActionResult> SendMessage(int chatId, int senderId, int receiverId, [FromBody] string messageText)
+        {
+            await _chatService.SendMessageAsync(chatId, senderId, receiverId, messageText);
+            return Ok();
+        }
+
+        [HttpPost("update-status")]
+        public async Task<IActionResult> UpdateMessageStatus(int messageId, int userId, [FromBody] bool isRead)
+        {
+            await _chatService.UpdateMessageStatusAsync(messageId, userId, isRead);
+            return Ok();
+        }
+
+        [HttpGet("details/{chatId}")]
+        public async Task<IActionResult> GetChatDetails(int chatId)
+        {
+            var chatDetails = await _chatService.GetChatDetailsAsync(chatId);
+            if (chatDetails == null)
+            {
+                return NotFound();
+            }
+            return Ok(chatDetails);
+        }
+
+        [HttpGet("chat-id")]
+        public async Task<IActionResult> GetChatId([FromQuery] int userId1, [FromQuery] int userId2)
+        {
+            var chatId = await _chatService.GetChatIdAsync(userId1, userId2);
+            return Ok(chatId);
+        }
+
+               
+
     }
 
-    [HttpDelete("{chatId}")]
-    public async Task<ActionResult> DeleteChat(int chatId)
-    {
-        if (await _chatService.DeleteChatAsync(chatId))
-            return NoContent();
-
-        return NotFound();
-    }
 }

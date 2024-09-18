@@ -149,4 +149,15 @@ export class AuthService {
     console.error(errorMessage);
     return throwError(() => new Error(errorMessage));
   }
+
+  getUsersByIds(userIds: number[]): Observable<IUsers[]> {
+    const idsParam = userIds.join(',');
+    return this.http.get<IUsers[]>(`${this.userUrl}/byIds?ids=${idsParam}`, {
+      headers: this.getAuthHeaders()
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+
 }
