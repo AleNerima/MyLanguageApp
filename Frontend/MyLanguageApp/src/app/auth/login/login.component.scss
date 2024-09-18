@@ -1,0 +1,74 @@
+
+// Colori personalizzati
+$primary-color: #007bff;
+$secondary-color: #6c757d;
+$background-color: #f8f9fa;
+$border-color: #ced4da;
+
+// Stili globali per il contenitore del login
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; // Centrare verticalmente
+  background-color: $background-color;
+
+  .login-form {
+    width: 100%;
+    max-width: 400px;
+    padding: 2rem;
+    background: white;
+    border-radius: 12px; // Cornice arrotondata
+    border: 1px solid $border-color; // Bordo del modulo
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); // Ombra più pronunciata
+    display: flex;
+    flex-direction: column; // Allinea gli elementi verticalmente
+    transition: box-shadow 0.3s ease; // Transizione per l'effetto hover
+
+    &:hover {
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); // Ombra più intensa al passaggio del mouse
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+
+      label {
+        display: block;
+        margin-bottom: .5rem;
+        font-weight: bold;
+        color: $secondary-color;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: .75rem;
+        border: 1px solid $border-color;
+        border-radius: .375rem;
+        box-sizing: border-box;
+
+        &:focus {
+          border-color: $primary-color;
+          outline: none;
+          box-shadow: 0 0 0 .2rem rgba($primary-color, .25);
+        }
+      }
+    }
+
+    .btn {
+      width: 100%;
+      padding: .75rem;
+      border: none;
+      border-radius: .375rem;
+      color: white;
+      background-color: $primary-color;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color .2s ease;
+
+      &:hover {
+        background-color: darken($primary-color, 10%);
+      }
+    }
+  }
+}
+

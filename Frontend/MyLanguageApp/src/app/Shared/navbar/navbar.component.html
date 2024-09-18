@@ -1,7 +1,11 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">App</a>
-  <div class="collapse navbar-collapse">
-    <ul class="navbar-nav ml-auto">
+<nav class="navbar navbar-expand-lg">
+  <a class="navbar-brand" href="#">FlashLanguage</a>
+  <button class="navbar-toggler" type="button" (click)="toggleCollapse()" aria-controls="navbarNav" aria-expanded="!isCollapsed" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-between" [ngClass]="{'show': !isCollapsed}" id="navbarNav">
+    <!-- Elenco degli elementi a sinistra -->
+    <ul class="navbar-nav mr-auto">
       <!-- Mostra questi link se l'utente NON è loggato -->
       <li class="nav-item" *ngIf="!isLoggedIn">
         <a class="nav-link" routerLink="/auth/login">Login</a>
@@ -11,28 +15,34 @@
       </li>
 
       <!-- Mostra questi link se l'utente è loggato -->
-      <li class="nav-item" *ngIf="isLoggedIn">
-        <a class="nav-link" href="#" (click)="logout()">Logout</a>
-      </li>
-      <li class="nav-item" *ngIf="isLoggedIn">
-        <a class="nav-link" routerLink="/Deck">decks</a>
-      </li>
-      <li class="nav-item" *ngIf="isLoggedIn">
-        <a class="nav-link" routerLink="/Deck/create">crea deck</a>
+      <li class="nav-item dropdown" *ngIf="isLoggedIn" (click)="toggleDropdown($event)">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" [attr.aria-expanded]="isDropdownOpen" (click)="toggleDropdown($event)">
+          Deck
+        </a>
+        <div class="dropdown-menu" [ngClass]="{'show': isDropdownOpen}" aria-labelledby="navbarDropdown" (click)="$event.stopPropagation()">
+          <a class="dropdown-item" routerLink="/Deck">Decks</a>
+          <a class="dropdown-item" routerLink="/Deck/create">Crea Deck</a>
+        </div>
       </li>
       <li class="nav-item" *ngIf="isLoggedIn">
         <a class="nav-link" routerLink="/PostComment">Post</a>
       </li>
       <li class="nav-item" *ngIf="isLoggedIn">
-        <a class="nav-link" routerLink="/UserProfile/profile">Profilo</a>
-      </li>
-      <li class="nav-item" *ngIf="isLoggedIn">
         <a class="nav-link" routerLink="/Friendship/friendships">Amici</a>
       </li>
       <li class="nav-item" *ngIf="isLoggedIn">
-        <a class="nav-link" routerLink="/Chat/chat-list">chatlista</a>
+        <a class="nav-link" routerLink="/Chat/chat-list">Chat Lista</a>
       </li>
+    </ul>
 
+    <!-- Elenco degli elementi a destra -->
+    <ul class="navbar-nav ml-auto" id="margin">
+      <li class="nav-item" *ngIf="isLoggedIn">
+        <a class="nav-link" routerLink="/UserProfile/profile">Profilo</a>
+      </li>
+      <li class="nav-item" *ngIf="isLoggedIn">
+        <a class="nav-link" href="#" (click)="logout()">Logout</a>
+      </li>
     </ul>
   </div>
 </nav>

@@ -1,5 +1,6 @@
+<!-- create-deck.component.html -->
 <div class="create-deck-container">
-  <h2>Crea un Nuovo Deck</h2>
+  <h2>Crea Il Tuo Deck</h2>
   <form (ngSubmit)="createDeck()">
     <div class="form-group">
       <label for="name">Nome del Deck</label>
@@ -8,7 +9,7 @@
 
     <div class="form-group">
       <label for="description">Descrizione</label>
-      <textarea id="description" [(ngModel)]="deck.description" name="description" class="form-control"></textarea>
+      <textarea id="description" [(ngModel)]="deck.description" name="description" class="form-control textarea"></textarea>
     </div>
 
     <button type="submit" class="btn btn-primary">Crea Deck</button>

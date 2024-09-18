@@ -61,7 +61,15 @@ namespace LanguageAppBackend.Controllers
             return Ok(chatId);
         }
 
-               
+        [HttpGet("unread-count/{userId}")]
+        public async Task<IActionResult> GetUnreadMessageCount(int userId)
+        {
+            var unreadCounts = await _chatService.GetUnreadMessageCountsAsync(userId);
+            return Ok(unreadCounts);
+        }
+
+
+
 
     }
 

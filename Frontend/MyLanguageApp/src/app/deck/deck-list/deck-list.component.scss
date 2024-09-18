@@ -1,0 +1,113 @@
+// deck.component.scss
+
+.deck-container {
+  padding: 2rem;
+  background-color: #f8f9fa;
+
+  h2 {
+    margin-bottom: 5rem;
+    font-size: 2rem;
+    color: #333;
+  }
+
+  .no-decks {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+  }
+
+  .deck-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center; // Centra le card
+  }
+
+  .deck-card {
+    width: 100%;
+    max-width: 300px;
+    background: white;
+    border: 1px solid #ced4da;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column; // Imposta la direzione della colonna per Flexbox
+    height: 450px; // Altezza fissa per la card
+
+    &:hover {
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .deck-card-header {
+      padding: 1rem;
+      background-color: #084718de;
+      color: white;
+
+      h3 {
+        margin: 0;
+      }
+    }
+
+    .deck-card-body {
+      flex: 1; // Fa sì che il corpo della card si espanda per occupare lo spazio rimanente
+      padding: 1rem;
+      display: flex;
+      flex-direction: column; // Direzione della colonna
+      justify-content: space-between; // Spinge i pulsanti verso il fondo
+
+      .deck-description {
+        margin-bottom: 1rem;
+
+        p {
+          margin-bottom: 1rem;
+          color: #666;
+        }
+      }
+
+      .deck-card-actions {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: space-between; // Spinge i pulsanti verso i bordi
+        margin-top: auto; // Spinge i pulsanti verso il fondo
+        padding-top: 1rem;
+
+        button {
+          flex: 1;
+          padding: 0.5rem;
+          border: none;
+          border-radius: 0.375rem;
+          color: white;
+          font-size: 0.875rem;
+          cursor: pointer;
+          transition: background-color 0.2s ease;
+
+          &.btn-danger {
+            background-color: #dc3545;
+
+            &:hover {
+              background-color: darken(#dc3545, 10%);
+            }
+          }
+
+          &.btn-secondary {
+            background-color: #6c757d;
+
+            &:hover {
+              background-color: darken(#6c757d, 10%);
+            }
+          }
+
+          &.btn-primary {
+            background-color: #007bff;
+
+            &:hover {
+              background-color: darken(#007bff, 10%);
+            }
+          }
+        }
+      }
+    }
+  }
+}

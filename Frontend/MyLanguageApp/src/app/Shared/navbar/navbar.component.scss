@@ -1,0 +1,41 @@
+.navbar {
+  background-color: #007bff; // Blu scuro per lo sfondo della navbar
+  padding: 10px 15px;
+
+  .navbar-brand {
+    color: #ffffff; // Colore del testo del brand bianco
+    &:hover {
+      color: #cce5ff; // Colore leggermente più chiaro al passaggio del mouse
+    }
+  }
+
+  .nav-link {
+    color: #ffffff; // Colore del link bianco
+    &:hover {
+      color: #cce5ff; // Colore più chiaro al passaggio del mouse
+    }
+  }
+
+  .dropdown-menu {
+    background-color: #f8f9fa; // Sfondo chiaro del menu a tendina
+    .dropdown-item {
+      color: #007bff; // Colore del testo del dropdown blu
+      &:hover {
+        background-color: #e2e6ea; // Sfondo al passaggio del mouse
+        color: #0056b3; // Colore del testo più scuro al passaggio del mouse
+      }
+    }
+  }
+
+  .navbar-toggler {
+    border-color: #ffffff; // Bottone del collapse bianco
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 30 30'%3E%3Cpath stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 7h20M5 15h20M5 23h20' /%3E%3C/svg%3E");
+    }
+  }
+
+
+  #margin{
+    margin-right: 4em;
+  }
+}

@@ -1,47 +1,50 @@
-<form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
-  <div>
-    <label for="username">Username</label>
-    <input id="username" formControlName="username" type="text" />
-    <div *ngIf="username?.invalid && (username?.dirty || username?.touched)">
-      <div *ngIf="username?.errors?.['required']">Username is required.</div>
+<!-- register.component.html -->
+<div class="register-container">
+  <form (ngSubmit)="onSubmit()" [formGroup]="registerForm" class="register-form">
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input id="username" formControlName="username" type="text" />
+      <div *ngIf="username?.invalid && (username?.dirty || username?.touched)" class="error-message">
+        <div *ngIf="username?.errors?.['required']">Username is required.</div>
+      </div>
     </div>
-  </div>
 
-  <div>
-    <label for="email">Email</label>
-    <input id="email" formControlName="email" type="email" />
-    <div *ngIf="email?.invalid && (email?.dirty || email?.touched)">
-      <div *ngIf="email?.errors?.['required']">Email is required.</div>
-      <div *ngIf="email?.errors?.['email']">Invalid email format.</div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input id="email" formControlName="email" type="email" />
+      <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="error-message">
+        <div *ngIf="email?.errors?.['required']">Email is required.</div>
+        <div *ngIf="email?.errors?.['email']">Invalid email format.</div>
+      </div>
     </div>
-  </div>
 
-  <div>
-    <label for="password">Password</label>
-    <input id="password" formControlName="password" type="password" />
-    <div *ngIf="password?.invalid && (password?.dirty || password?.touched)">
-      <div *ngIf="password?.errors?.['required']">Password is required.</div>
-      <div *ngIf="password?.errors?.['minlength']">Password must be at least 6 characters long.</div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input id="password" formControlName="password" type="password" />
+      <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="error-message">
+        <div *ngIf="password?.errors?.['required']">Password is required.</div>
+        <div *ngIf="password?.errors?.['minlength']">Password must be at least 6 characters long.</div>
+      </div>
     </div>
-  </div>
 
-  <div>
-    <label for="nativeLanguage">Native Language</label>
-    <input id="nativeLanguage" formControlName="nativeLanguage" type="text" />
-    <div *ngIf="nativeLanguage?.invalid && (nativeLanguage?.dirty || nativeLanguage?.touched)">
-      <div *ngIf="nativeLanguage?.errors?.['required']">Native language is required.</div>
+    <div class="form-group">
+      <label for="nativeLanguage">Native Language</label>
+      <input id="nativeLanguage" formControlName="nativeLanguage" type="text" />
+      <div *ngIf="nativeLanguage?.invalid && (nativeLanguage?.dirty || nativeLanguage?.touched)" class="error-message">
+        <div *ngIf="nativeLanguage?.errors?.['required']">Native language is required.</div>
+      </div>
     </div>
-  </div>
 
-  <div>
-    <label for="targetLanguage">Target Language</label>
-    <input id="targetLanguage" formControlName="targetLanguage" type="text" />
-    <div *ngIf="targetLanguage?.invalid && (targetLanguage?.dirty || targetLanguage?.touched)">
-      <div *ngIf="targetLanguage?.errors?.['required']">Target language is required.</div>
+    <div class="form-group">
+      <label for="targetLanguage">Target Language</label>
+      <input id="targetLanguage" formControlName="targetLanguage" type="text" />
+      <div *ngIf="targetLanguage?.invalid && (targetLanguage?.dirty || targetLanguage?.touched)" class="error-message">
+        <div *ngIf="targetLanguage?.errors?.['required']">Target language is required.</div>
+      </div>
     </div>
-  </div>
 
-  <button type="submit" [disabled]="registerForm.invalid">Register</button>
-</form>
+    <button type="submit" [disabled]="registerForm.invalid">Register</button>
+  </form>
 
-<div *ngIf="errorMessage">{{ errorMessage }}</div>
+  <div *ngIf="errorMessage" class="error-message-container">{{ errorMessage }}</div>
+</div>

@@ -123,6 +123,16 @@ namespace LanguageAppBackend.Services
             return chat.ChatId; // Restituisci l'ID della nuova chat
         }
 
+        public async Task<Dictionary<int, int>> GetUnreadMessageCountsAsync(int userId)
+        {
+            return await _context.MessageStatuses
+                .Where(ms => ms.UserId == userId && !ms.IsRead)
+                .GroupBy(ms => ms.ChatMessage.ChatId)
+                .Select(g => new { ChatId = g.Key, UnreadCount = g.Count() })
+                .ToDictionaryAsync(x => x.ChatId, x => x.UnreadCount);
+        }
+
+
 
     }
 }
