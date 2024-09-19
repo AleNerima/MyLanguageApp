@@ -90,7 +90,7 @@ namespace LanguageAppBackend.Services
                     nextReviewDate = now.AddMinutes(5); // Aggiungi minuti
                     break;
                 case 3: // Estremamente Difficile
-                    nextReviewDate = now.AddSeconds(2); // Aggiungi secondi
+                    nextReviewDate = now.AddSeconds(1); // Aggiungi secondi
                     break;
                 default:
                     nextReviewDate = now;
