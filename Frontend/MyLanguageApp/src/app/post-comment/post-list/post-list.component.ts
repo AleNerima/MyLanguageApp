@@ -17,6 +17,7 @@ export class PostListComponent implements OnInit {
   filterForm: FormGroup;
   users: { [id: number]: string } = {};
   currentUserId: number = 0; // Aggiungi per tenere traccia dell'ID dell'utente corrente
+  showComments: { [postId: number]: boolean } = {};
 
   constructor(
     private postService: PostService,
@@ -112,5 +113,9 @@ export class PostListComponent implements OnInit {
         }
       });
     }
+  }
+
+  toggleComments(postId: number): void {
+    this.showComments[postId] = !this.showComments[postId];
   }
 }

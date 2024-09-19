@@ -1,9 +1,21 @@
-<h4>Commenti</h4>
-<div *ngFor="let comment of comments">
-  <p>{{ comment.content }}</p>
-  <button *ngIf="comment.userId === currentUserId" (click)="deleteComment(comment.commentId)">Delete</button>
+<div class="comments-section">
+  <h4>Commenti</h4>
+  <div *ngIf="comments.length === 0" class="no-comments">
+    <p>Nessun commento disponibile. Aggiungi il primo commento!</p>
+  </div>
+
+  <div *ngFor="let comment of comments" class="comment-card">
+    <p class="comment-author">{{ getUsername(comment.userId) }}</p>
+    <p class="comment-content">{{ comment.content }}</p>
+    <button *ngIf="comment.userId === currentUserId" (click)="deleteComment(comment.commentId)" class="delete-comment-btn">
+      ✖
+    </button>
+  </div>
+
+  <form (ngSubmit)="addComment()" class="add-comment-form">
+    <div class="form-group">
+      <textarea [(ngModel)]="newComment" name="newComment" class="form-control" placeholder="Scrivi un commento..."></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Aggiungi Commento</button>
+  </form>
 </div>
-<form (ngSubmit)="addComment()">
-  <textarea [(ngModel)]="newComment" name="newComment"></textarea>
-  <button type="submit">Add Comment</button>
-</form>

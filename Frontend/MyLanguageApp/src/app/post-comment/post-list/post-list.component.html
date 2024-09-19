@@ -1,29 +1,60 @@
-<form [formGroup]="filterForm" (ngSubmit)="onFilterSubmit()">
-  <label for="startDate">Dal:</label>
-  <input type="date" id="startDate" formControlName="startDate">
+<!-- Filtraggio dei post -->
+<div class="filter-container">
+  <form [formGroup]="filterForm" (ngSubmit)="onFilterSubmit()">
+    <div class="form-group">
+      <label for="startDate">Dal:</label>
+      <input type="date" id="startDate" formControlName="startDate" class="form-control">
+    </div>
 
-  <label for="endDate">Al:</label>
-  <input type="date" id="endDate" formControlName="endDate">
+    <div class="form-group">
+      <label for="endDate">Al:</label>
+      <input type="date" id="endDate" formControlName="endDate" class="form-control">
+    </div>
 
-  <label for="language">Language:</label>
-  <input type="text" id="language" formControlName="language">
+    <div class="form-group">
+      <label for="language">Lingua:</label>
+      <input type="text" id="language" formControlName="language" class="form-control">
+    </div>
 
-  <button type="submit">Filter</button>
-</form>
+    <button type="submit" class="btn btn-primary">Filtra</button>
+  </form>
+</div>
 
 <!-- Pulsante per aggiungere un nuovo post -->
-<button (click)="navigateToCreatePost()">Add Post</button>
+<div class="add-post-container">
+  <button (click)="navigateToCreatePost()" class="btn btn-success">Aggiungi Post</button>
+</div>
 
 <!-- Lista dei post filtrati -->
- <h4>Post</h4>
-<div *ngFor="let post of filteredPosts">
-  <h5>
-    <a [routerLink]="['/UserProfile/profile', post.userId]">{{ getAuthorName(post.userId) }}</a>
-  </h5>
-  <h5>{{ post.language }}</h5>
-  <p>{{ post.content }}</p>
-  <button *ngIf="post.userId === currentUserId" (click)="deletePost(post.postId)">Delete</button>
+<div class="posts-container">
+  <h4>Post</h4>
+  <div *ngFor="let post of filteredPosts" class="post-card">
+    <!-- Posizioniamo il pulsante di eliminazione in alto a destra -->
+    <div class="delete-post">
+      <button *ngIf="post.userId === currentUserId" (click)="deletePost(post.postId)" class="btn-delete">
+        &#10006; Elimina
+      </button>
+    </div>
 
-   <!-- Sezione commenti -->
-   <app-comment [postId]="post.postId"></app-comment>
+    <div class="post-header">
+      <h5 class="post-author">
+        <a [routerLink]="['/UserProfile/profile', post.userId]" class="text-decoration-none text-warning">{{ getAuthorName(post.userId) }}</a>
+      </h5>
+      <p class="post-language">Lingua: {{ post.language }}</p>
+    </div>
+
+    <p class="post-content">{{ post.content }}</p>
+
+    <!-- Sezione commenti -->
+    <div class="post-actions">
+      <button (click)="toggleComments(post.postId)" class="btn btn-secondary">
+        {{ showComments[post.postId] ? 'Nascondi Commenti' : 'Mostra Commenti' }}
+      </button>
+    </div>
+
+    <!-- Commenti visibili solo se toggle attivato -->
+    <div *ngIf="showComments[post.postId]" class="comments-list">
+      <app-comment [postId]="post.postId"></app-comment>
+    </div>
+  </div>
 </div>

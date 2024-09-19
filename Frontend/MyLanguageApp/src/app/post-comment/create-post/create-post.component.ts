@@ -13,7 +13,6 @@ export class CreatePostComponent {
 
   constructor(private fb: FormBuilder, private postService: PostService, private router: Router) {
     this.postForm = this.fb.group({
-      title: ['', Validators.required],
       content: ['', Validators.required],
       language: ['', Validators.required]
     });
