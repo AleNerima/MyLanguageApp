@@ -1,30 +1,46 @@
-<!-- friendship-list.component.html -->
-<div>
-  <h2>Le tue amicizie</h2>
-  <div *ngIf="friendships.length > 0">
-    <h3>Amicizie Accettate</h3>
-    <div *ngFor="let friendship of friendships">
-      <p>
-        Amico: {{ getUserName(friendship.userId1 === userId ? friendship.userId2 : friendship.userId1) }}
-      </p>
+<div class="friendship-list">
+  <h2>Amici</h2>
+
+  <div *ngIf="friendships.length > 0" class="friendships-section">
+    <div *ngFor="let friendship of friendships" class="friendship-card">
+      <a [routerLink]="['/UserProfile/profile', getFriendId(friendship)]" class="friendship-link">
+        {{ getUserName(getFriendId(friendship)) }}
+      </a>
     </div>
-  </div>
-  <div *ngIf="friendships.length === 0">
-    <p>Non hai amicizie.</p>
   </div>
 
-  <h2>Richieste in Sospeso</h2>
-  <div *ngIf="pendingRequests.length > 0">
-    <div *ngFor="let request of pendingRequests">
-      <p>
-        Richiesta da: {{ getUserName(request.userId1 === userId ? request.userId2 : request.userId1) }}
-        - Stato: {{ request.status }}
-      </p>
-      <button (click)="acceptRequest(request.friendshipId)">Accetta</button>
-      <button (click)="rejectRequest(request.friendshipId)">Rifiuta</button>
-    </div>
+  <div *ngIf="friendships.length === 0" class="no-friendships">
+    <p>Non hai ancora inviato richieste di amicizia.</p>
   </div>
-  <div *ngIf="pendingRequests.length === 0">
-    <p>Non hai richieste di amicizia in sospeso.</p>
+
+  <div class="pending-requests-section">
+    <h2>
+      Richieste in Sospeso
+      <button (click)="togglePendingRequests()" class="toggle-btn">
+        {{ showPendingRequests ? 'Nascondi' : 'Mostra' }} Richieste
+      </button>
+    </h2>
+
+    <div *ngIf="showPendingRequests">
+      <div *ngIf="pendingRequests.length > 0" class="pending-request-list">
+        <div *ngFor="let request of pendingRequests" class="request-card">
+          <p>
+            Richiesta da:
+            <a [routerLink]="['/UserProfile/profile', getFriendId(request)]" class="request-link">
+              {{ getUserName(getFriendId(request)) }}
+            </a>
+
+          </p>
+          <div class="request-actions">
+            <button (click)="acceptRequest(request.friendshipId)" class="accept-btn">Accetta</button>
+            <button (click)="rejectRequest(request.friendshipId)" class="reject-btn">Rifiuta</button>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="pendingRequests.length === 0" class="no-requests">
+        <p>Non hai richieste di amicizia in sospeso.</p>
+      </div>
+    </div>
   </div>
 </div>

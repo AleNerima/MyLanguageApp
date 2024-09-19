@@ -1,4 +1,3 @@
-// friendship-list.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FriendshipService } from '../../service/friendship.service';
 import { UserService } from '../../service/users.service';
@@ -18,6 +17,7 @@ export class FriendshipListComponent implements OnInit {
   users: Map<number, IUsers> = new Map(); // Mappa per memorizzare i dettagli degli utenti
   isLoading: boolean = true;
   errorMessage: string | null = null;
+  showPendingRequests: boolean = false;
 
   constructor(
     private friendshipService: FriendshipService,
@@ -51,6 +51,7 @@ export class FriendshipListComponent implements OnInit {
   loadPendingRequests(): void {
     this.friendshipService.getPendingFriendships(this.userId).subscribe(
       pendingRequests => {
+        console.log('Richieste in sospeso caricate:', pendingRequests); // Verifica se i dati sono corretti
         this.pendingRequests = pendingRequests;
         this.loadUserDetails(pendingRequests);
       },
@@ -106,5 +107,15 @@ export class FriendshipListComponent implements OnInit {
   getUserName(userId: number): string {
     const user = this.users.get(userId);
     return user ? user.username : 'Unknown';
+  }
+
+  togglePendingRequests(): void {
+    this.showPendingRequests = !this.showPendingRequests;
+    console.log('Mostra richieste in sospeso:', this.showPendingRequests); // Debug: verifica se la variabile cambia
+  }
+
+  getFriendId(friendship: IFriendship): number {
+    // Restituisce l'ID dell'amico in base alla relazione di amicizia
+    return friendship.userId1 === this.userId ? friendship.userId2 : friendship.userId1;
   }
 }
