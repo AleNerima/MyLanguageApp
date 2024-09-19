@@ -1,13 +1,19 @@
-<!-- create-flashcard.component.html -->
-<form [formGroup]="flashcardForm" (ngSubmit)="onSubmit()">
-  <label for="term">Termine</label>
-  <input id="term" formControlName="term">
+<div class="create-flashcard-container">
+  <h2>Crea una Nuova Flashcard</h2>
+  <form [formGroup]="flashcardForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="term">Termine</label>
+      <input id="term" formControlName="term" placeholder="Sar&agrave; la parte frontale della tua Flashcard" class="form-control">
+    </div>
 
-  <label for="definition">Definizione</label>
-  <textarea id="definition" formControlName="definition"></textarea>
+    <div class="form-group">
+      <label for="definition">Definizione</label>
+      <textarea id="definition" placeholder="Sar&agrave; la parte posteriore della tua Flashcard" formControlName="definition" class="form-control"></textarea>
+    </div>
 
-  <label for="difficultyLevel">Livello di Difficoltà</label>
-  <input id="difficultyLevel" type="number" formControlName="difficultyLevel">
-
-  <button type="submit">Crea Flashcard</button>
-</form>
+    <div class="button-group">
+      <button type="submit" class="btn btn-primary">Crea Flashcard</button>
+      <button type="button" (click)="goBack()" class="btn btn-secondary">Torna al Deck</button>
+    </div>
+  </form>
+</div>

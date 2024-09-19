@@ -2,7 +2,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FlashcardService } from '../../service/flashcard.service';
-import { IFlashcard } from '../../Interfaces/i-flashcard';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -44,5 +43,9 @@ export class CreateFlashcardComponent implements OnInit {
         (error) => console.error('Errore nella creazione della flashcard', error)
       );
     }
+  }
+
+  goBack() {
+    this.router.navigate(['/Deck']);
   }
 }

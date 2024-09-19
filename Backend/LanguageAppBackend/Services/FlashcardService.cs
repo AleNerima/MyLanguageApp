@@ -84,13 +84,13 @@ namespace LanguageAppBackend.Services
             switch (difficultyLevel)
             {
                 case 1: // Facile
-                    nextReviewDate = now.AddDays(7); // Aggiungi 7 giorni
+                    nextReviewDate = now.AddDays(3); // Aggiungi giorni 
                     break;
                 case 2: // Difficile
-                    nextReviewDate = now.AddHours(1); // Aggiungi 1 ora
+                    nextReviewDate = now.AddMinutes(5); // Aggiungi minuti
                     break;
                 case 3: // Estremamente Difficile
-                    nextReviewDate = now.AddMinutes(1); // Aggiungi 10 minuti
+                    nextReviewDate = now.AddSeconds(2); // Aggiungi secondi
                     break;
                 default:
                     nextReviewDate = now;

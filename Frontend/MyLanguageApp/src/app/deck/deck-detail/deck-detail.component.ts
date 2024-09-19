@@ -14,6 +14,7 @@ import { IFlashcard } from '../../Interfaces/i-flashcard';
 export class DeckDetailComponent implements OnInit {
   deck: IDeck | null = null;
   flashcards: IFlashcard[] = [];
+  isFlashcardsVisible: boolean = false;
 
   constructor(
     private route: ActivatedRoute,

@@ -1,19 +1,29 @@
-<!-- Messaggio di avviso quando non ci sono flashcard da studiare -->
-<div *ngIf="isEmpty">
+<div *ngIf="isEmpty" class="no-flashcards-container">
   <h2>Nessuna flashcard da studiare</h2>
   <p>Hai finito tutte le flashcard disponibili per questo mazzo.</p>
-  <p>Se vuoi ripetere alcune Card anticipatamente vai su vedi dettagli della card premi modifica e imposta la difficoltà a estremamente difficile</p>
+  <p>Se vuoi ripetere alcune Card anticipatamente, vai su "Vedi Dettagli della Card", premi "Modifica" e imposta la difficoltà a "Estremamente Difficile".</p>
 </div>
 
-<!-- Altri elementi del template per la visualizzazione delle flashcard -->
-<div *ngIf="!isEmpty">
-  <!-- Mostra la flashcard corrente -->
-  <div *ngIf="currentFlashcard">
-    <p>{{ currentFlashcard.term }}</p>
-    <button (click)="toggleDefinition()">Mostra/Nascondi Definizione</button>
-    <p *ngIf="isDefinitionVisible">{{ currentFlashcard.definition }}</p>
-    <button (click)="handleDifficulty(1)">Facile</button>
-    <button (click)="handleDifficulty(2)">Difficile</button>
-    <button (click)="handleDifficulty(3)">Estremamente Difficile</button>
+<!-- Flashcard Study Section -->
+<div *ngIf="!isEmpty" class="flashcard-study-container">
+  <div class="flashcard" *ngIf="currentFlashcard">
+    <div class="flashcard-inner" [ngClass]="{'flipped': isDefinitionVisible}">
+      <div class="flashcard-front">
+        <p>{{ currentFlashcard.term }}</p>
+      </div>
+      <div class="flashcard-back">
+        <p>{{ currentFlashcard.definition }}</p>
+      </div>
+    </div>
+  </div>
+
+  <button (click)="toggleDefinition()" class="btn btn-info mt-4 mb-4">
+    {{ isDefinitionVisible ? 'Mostra Termine' : 'Mostra Definizione' }}
+  </button>
+
+  <div class="difficulty-buttons">
+    <button (click)="handleDifficulty(1)" class="btn btn-success">Facile</button>
+    <button (click)="handleDifficulty(2)" class="btn btn-warning">Difficile</button>
+    <button (click)="handleDifficulty(3)" class="btn btn-danger">Estremamente Difficile</button>
   </div>
 </div>

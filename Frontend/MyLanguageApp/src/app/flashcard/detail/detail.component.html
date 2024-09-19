@@ -1,11 +1,17 @@
-<!-- detail-flashcard.component.html -->
-<div *ngIf="flashcard">
-  <h2>{{ flashcard.term }}</h2>
-  <p>{{ flashcard.definition }}</p>
-  <p>Difficoltà: {{ flashcard.difficultyLevel }}</p>
-  <p>Prossima Revisione: {{ formatDate(flashcard.nextReviewDate) }}</p>
+<div class="flashcard-detail-container" *ngIf="flashcard">
+  <div class="flashcard-header">
+    <h2>{{ flashcard.term }}</h2>
+    <p class="difficulty-level">Difficoltà: {{ flashcard.difficultyLevel }}</p>
+  </div>
 
+  <div class="flashcard-body">
+    <p class="definition">Termine: {{ flashcard.term}}</p>
+    <p class="definition">Definizione: {{ flashcard.definition }}</p>
+    <p class="next-review">Prossima Revisione: {{ formatDate(flashcard.nextReviewDate) }}</p>
+  </div>
 
-  <!-- Pulsante per modificare la flashcard -->
-  <button (click)="editFlashcard()">Modifica</button>
+  <div class="flashcard-actions">
+    <button (click)="editFlashcard()" class="btn btn-primary">Modifica</button>
+    <button (click)="goBack()" class="btn btn-secondary">Torna Indietro</button>
+  </div>
 </div>

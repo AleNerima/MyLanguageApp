@@ -54,5 +54,8 @@ export class DetailFlashcardComponent implements OnInit {
     return 'Data non valida'; // Messaggio di fallback se la data non è valida
   }
 
+  goBack() {
+    this.router.navigate(['/Deck/detail', this.flashcard?.deckId]);
+  }
 
 }

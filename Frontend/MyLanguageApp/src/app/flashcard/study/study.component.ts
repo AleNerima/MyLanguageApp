@@ -27,40 +27,46 @@ export class StudyFlashcardComponent implements OnInit {
   loadFlashcards(): void {
     const deckId = +this.route.snapshot.paramMap.get('deckId')!;
     if (isNaN(deckId)) {
-        console.error('ID del mazzo non valido:', deckId);
-        return;
+      console.error('ID del mazzo non valido:', deckId);
+      return;
     }
 
     this.flashcardService.getFlashcardsByDeck(deckId).subscribe(
-        (response: any) => {
-            console.log('Dati restituiti dal backend:', response);
-            this.flashcards = response.$values || [];
+      (response: any) => {
+        console.log('Dati restituiti dal backend:', response);
+        this.flashcards = response.$values || [];
 
-            // Filtra le flashcard in base alla nextReviewDate
-            const now = new Date();
-            this.flashcards = this.flashcards.filter(fc => {
-                if (!fc.nextReviewDate) {
-                    return false;
-                }
+        // Filtra le flashcard in base alla nextReviewDate
+        const now = new Date();
+        const filteredFlashcards = this.flashcards.filter(fc => {
+          if (!fc.nextReviewDate) {
+            return false; // Flashcard senza data di revisione non sono incluse nel primo filtro
+          }
 
-                // Converti la data di revisione da UTC a locale
-                const reviewDateUTC = new Date(fc.nextReviewDate);
-                const reviewDate = new Date(reviewDateUTC.getTime() - reviewDateUTC.getTimezoneOffset() * 60000);
-                console.log('Data di revisione filtrata (locale):', reviewDate.toLocaleString());
-                return reviewDate.getTime() <= now.getTime();
-            });
+          // Converti la data di revisione da UTC a locale
+          const reviewDateUTC = new Date(fc.nextReviewDate);
+          const reviewDate = new Date(reviewDateUTC.getTime() - reviewDateUTC.getTimezoneOffset() * 60000);
+          console.log('Data di revisione filtrata (locale):', reviewDate.toLocaleString());
+          return reviewDate.getTime() <= now.getTime();
+        });
 
-            console.log('Flashcards filtrate:', this.flashcards);
-            if (this.flashcards.length > 0) {
-                this.showFlashcard(0);
-            } else {
-                this.isEmpty = true;
-                console.log('Nessuna flashcard disponibile.');
-            }
-        },
-        (error) => console.error('Errore nel caricamento delle flashcard', error)
+        // Aggiungi flashcard senza data di revisione
+        const flashcardsWithoutReviewDate = this.flashcards.filter(fc => !fc.nextReviewDate);
+
+        // Combina flashcard filtrate e quelle senza data di revisione
+        this.flashcards = [...filteredFlashcards, ...flashcardsWithoutReviewDate];
+
+        console.log('Flashcards filtrate:', this.flashcards);
+        if (this.flashcards.length > 0) {
+          this.showFlashcard(0);
+        } else {
+          this.isEmpty = true;
+          console.log('Nessuna flashcard disponibile.');
+        }
+      },
+      (error) => console.error('Errore nel caricamento delle flashcard', error)
     );
-}
+  }
 
 
   showFlashcard(index: number): void {
@@ -96,8 +102,5 @@ export class StudyFlashcardComponent implements OnInit {
   toggleDefinition(): void {
     this.isDefinitionVisible = !this.isDefinitionVisible;
   }
-
-
-
 
 }

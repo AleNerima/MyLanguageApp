@@ -1,0 +1,106 @@
+.deck-container {
+  padding: 2rem;
+  background-color: #f8f9fa;
+
+
+  .deck-frame {
+    background: white;
+    border: 2px solid #ced4da;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+
+    h2 {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      color: #666;
+    }
+
+    .deck-actions {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2rem;
+
+      button {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+      }
+    }
+  }
+
+  .btn-info {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .flashcard-section {
+    background: white;
+    border: 2px solid #ced4da;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    .flashcard-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      border-bottom: 1px solid #ced4da;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .flashcard-details {
+        flex: 3;
+        p {
+          margin: 0;
+          color: #333;
+          text-align: start;
+        }
+
+        p:first-of-type {
+          font-weight: bold;
+          font-size: 1.25rem;
+        }
+      }
+
+      .flashcard-actions {
+        flex: 1;
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
+
+        button {
+          flex: 1;
+          padding: 0.5rem;
+          font-size: 0.875rem;
+        }
+
+        .btn-danger {
+          background-color: #dc3545;
+        }
+
+        .btn-secondary {
+          background-color: #6c757d;
+        }
+      }
+    }
+  }
+
+  .no-flashcards {
+    text-align: center;
+    color: #666;
+    font-size: 1.1rem;
+    margin-top: 1.5rem;
+  }
+}

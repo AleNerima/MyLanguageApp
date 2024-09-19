@@ -1,23 +1,28 @@
-<div *ngIf="flashcard">
+<div class="edit-flashcard-container" *ngIf="flashcard">
   <h2>Modifica Flashcard</h2>
   <form (ngSubmit)="updateFlashcard()">
-    <div>
+    <div class="form-group">
       <label for="term">Termine:</label>
-      <input id="term" [(ngModel)]="flashcard.term" name="term" required />
+      <input id="term" [(ngModel)]="flashcard.term" name="term" class="form-control" required />
     </div>
-    <div>
+
+    <div class="form-group">
       <label for="definition">Definizione:</label>
-      <textarea id="definition" [(ngModel)]="flashcard.definition" name="definition" required></textarea>
+      <textarea id="definition" [(ngModel)]="flashcard.definition" name="definition" class="form-control" required></textarea>
     </div>
-    <div>
+
+    <div class="form-group">
       <label for="difficultyLevel">Livello di Difficoltà:</label>
-      <select id="difficultyLevel" [(ngModel)]="flashcard.difficultyLevel" name="difficultyLevel" required>
+      <select id="difficultyLevel" [(ngModel)]="flashcard.difficultyLevel" name="difficultyLevel" class="form-control" required>
         <option [ngValue]="1">Facile</option>
         <option [ngValue]="2">Difficile</option>
         <option [ngValue]="3">Estremamente Difficile</option>
       </select>
     </div>
-    <button type="submit">Salva</button>
-    <button type="button" (click)="router.navigate(['/flashcard/detail', flashcard.cardId])">Annulla</button>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Salva</button>
+      <button type="button" class="btn btn-secondary" (click)="goBack()">Annulla</button>
+    </div>
   </form>
 </div>

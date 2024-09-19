@@ -55,4 +55,9 @@ export class EditDeckComponent implements OnInit {
       );
     }
   }
+
+  cancelEdit() {
+    // Naviga alla pagina precedente utilizzando la cronologia del router
+    this.router.navigate(['/Deck'], { relativeTo: this.route });
+  }
 }

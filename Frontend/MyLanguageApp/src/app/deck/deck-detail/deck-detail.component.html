@@ -1,23 +1,38 @@
-<div *ngIf="deck">
-  <h2>{{ deck.name }}</h2>
-  <p>{{ deck.description }}</p>
+<div class="deck-container text-center" *ngIf="deck">
+  <div class="deck-frame">
+    <h2>{{ deck.name }}</h2>
+    <p>{{ deck.description }}</p>
 
-  <!-- Se non ci sono flashcard -->
-  <div *ngIf="flashcards.length === 0">
-    <p>Nessuna flashcard trovata.</p>
+    <!-- Pulsanti principali (Studia e Aggiungi Flashcard) -->
+    <div class="deck-actions">
+      <button class="btn btn-primary" (click)="studyFlashcards()" *ngIf="flashcards.length > 0">Studia</button>
+      <button class="btn btn-secondary" (click)="addFlashcard()">Aggiungi Flashcard</button>
+    </div>
   </div>
 
-  <!-- Lista delle flashcard -->
-  <ul *ngIf="flashcards.length > 0">
-    <li *ngFor="let flashcard of flashcards">
-      <p>{{ flashcard.term }} - {{ flashcard.definition }}</p>
-      <button (click)="deleteFlashcard(flashcard.cardId ?? 0)">Elimina</button>
-      <button (click)="viewDetails(flashcard.cardId ?? 0)">Vedi Dettagli</button>
-      <!-- Aggiungi qui pulsanti per modificare o vedere i dettagli -->
-    </li>
-  </ul>
+  <!-- Pulsante per mostrare/nascondere le flashcard -->
+  <button class="btn btn-info mt-4" (click)="isFlashcardsVisible = !isFlashcardsVisible">
+    {{ isFlashcardsVisible ? 'Nascondi' : 'Mostra' }} Flashcards
+  </button>
 
-  <!-- Pulsanti -->
-  <button (click)="addFlashcard()">Aggiungi Flashcard</button>
-  <button (click)="studyFlashcards()" *ngIf="flashcards.length > 0">Studia</button>
+  <!-- Sezione delle flashcard incorniciata -->
+  <div *ngIf="isFlashcardsVisible" class="flashcard-section mt-5">
+    <div *ngIf="flashcards.length > 0">
+      <div *ngFor="let flashcard of flashcards" class="flashcard-row">
+        <div class="flashcard-details">
+          <p><strong>Termine: {{ flashcard.term }}</strong></p>
+          <p> Definizione: {{ flashcard.definition }}</p>
+        </div>
+        <div class="flashcard-actions">
+          <button (click)="deleteFlashcard(flashcard.cardId ?? 0)" class="btn btn-danger">Elimina</button>
+          <button (click)="viewDetails(flashcard.cardId ?? 0)" class="btn btn-secondary">Vedi Dettagli</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Messaggio se non ci sono flashcard -->
+    <div *ngIf="flashcards.length === 0" class="no-flashcards">
+      <p>Nessuna flashcard trovata.</p>
+    </div>
+  </div>
 </div>
