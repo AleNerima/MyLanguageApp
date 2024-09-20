@@ -5,4 +5,6 @@ export interface IUsers {
   nativeLanguage: string;
   targetLanguage: string;
   createdAt: Date;
+  imageUrl?: string;
+  imageData?: string;
 }

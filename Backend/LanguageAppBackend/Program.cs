@@ -57,6 +57,7 @@ builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IChatService, ChatService>();
 builder.Services.AddScoped<IFriendshipService, FriendshipService>();
+builder.Services.AddScoped<IUserImageService, UserImageService>();
 
 // Registrazione IHttpContextAccessor
 builder.Services.AddHttpContextAccessor();

@@ -1,0 +1,9 @@
+<div class="upload-image-container">
+  <h2>Carica Immagine Profilo</h2>
+
+  <input type="file" (change)="onImageSelected($event)" accept="image/*" class="file-input" />
+
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+  <button (click)="goBackToProfile()" class="back-button">Torna al Profilo</button>
+</div>

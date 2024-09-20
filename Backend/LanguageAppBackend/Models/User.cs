@@ -50,7 +50,8 @@ namespace LanguageAppBackend.Models
         public ICollection<ChatMessage> SentMessages { get; set; } = new List<ChatMessage>();
         [JsonIgnore]
         public ICollection<ChatMessage> ReceivedMessages { get; set; } = new List<ChatMessage>();
-
+        [JsonIgnore]
+        public UserImage UserImage { get; set; }
     }
 
 }

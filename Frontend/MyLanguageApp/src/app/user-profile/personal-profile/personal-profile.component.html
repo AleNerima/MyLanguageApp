@@ -1,16 +1,22 @@
-<div class="personal-profile">
-  <h1 *ngIf="!isLoading && !errorMessage">{{ user?.username }}'s Profile</h1>
-  <div *ngIf="isLoading">
-    <p>Caricamento del profilo in corso...</p>
+<div class="profile-card">
+  <div class="profile-image" (click)="goToUploadImage()">
+    <img [src]="user?.imageUrl || 'assets/images/defaultimage.png'" alt="{{ user?.username }}" />
   </div>
-  <div *ngIf="errorMessage">
-    <p>{{ errorMessage }}</p>
-  </div>
-  <div *ngIf="user">
-    <p><strong>Username:</strong> {{ user.username }}</p>
-    <p><strong>Email:</strong> {{ user.email }}</p>
-    <p><strong>Lingua Nativa:</strong> {{ user.nativeLanguage }}</p>
-    <p><strong>Lingua Target:</strong> {{ user.targetLanguage }}</p>
-    <p><strong>Registrato dal:</strong> {{ user.createdAt | date }}</p>
+
+  <div class="profile-info">
+    <h1 *ngIf="!isLoading && !errorMessage">{{ user?.username }}</h1>
+
+    <div *ngIf="isLoading" class="loading">
+      <p>Caricamento del profilo in corso...</p>
+    </div>
+
+    <div *ngIf="errorMessage" class="error-message">
+      <p>{{ errorMessage }}</p>
+    </div>
+
+    <p><strong>Email:</strong> {{ user?.email }}</p>
+    <p><strong>Lingua Nativa:</strong> {{ user?.nativeLanguage }}</p>
+    <p><strong>Lingua Target:</strong> {{ user?.targetLanguage }}</p>
+    <p><strong>Registrato dal:</strong> {{ user?.createdAt | date }}</p>
   </div>
 </div>

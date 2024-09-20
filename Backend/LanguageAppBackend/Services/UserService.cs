@@ -17,6 +17,7 @@ namespace LanguageAppBackend.Services
         public async Task<User> GetUserByIdAsync(int userId)
         {
             return await _context.Users
+                .Include(u => u.UserImage)
                 .Include(u => u.Decks)
                 .Include(u => u.Posts)
                 .Include(u => u.Comments)

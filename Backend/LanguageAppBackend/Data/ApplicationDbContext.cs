@@ -19,6 +19,7 @@ namespace LanguageAppBackend.Data
         public DbSet<Chat> Chats { get; set; }
         public DbSet<ChatMessage> ChatMessages { get; set; } // Aggiungi questo DbSet per i messaggi della chat
         public DbSet<MessageStatus> MessageStatuses { get; set; } // Aggiungi questo DbSet per lo stato dei messaggi
+        public DbSet<UserImage> UserImages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

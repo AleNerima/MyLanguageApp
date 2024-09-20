@@ -104,20 +104,35 @@ export class AuthService {
 
   restoreUser(): void {
     const accessData = this.getAccessData();
+    console.log('Access data:', accessData);
+
     if (accessData && accessData.token && !this.jwtHelper.isTokenExpired(accessData.token)) {
       const decodedToken = this.jwtHelper.decodeToken(accessData.token);
       const userId = decodedToken?.nameid;
+      console.log('Decoded userId:', userId);
 
       if (userId) {
-        this.getUserData(userId).subscribe(user => this.authSubject.next(user));
+        this.getUserData(userId).subscribe(
+          user => {
+            console.log('User data retrieved:', user);
+            this.authSubject.next(user);
+          },
+          error => {
+            console.error('Error retrieving user data:', error);
+            this.logout();
+          }
+        );
         this.autoLogout();
       } else {
+        console.error('No userId found in token');
         this.logout();
       }
     } else {
+      console.warn('No valid access data or token expired');
       this.logout();
     }
   }
+
 
   getAccessData(): IAuthResponse | null {
     const accessDataJson = localStorage.getItem('datiUser');
@@ -157,6 +172,11 @@ export class AuthService {
     }).pipe(
       catchError(this.handleError)
     );
+  }
+
+  getCurrentUserId(): number | null {
+    const currentUser = this.authSubject.getValue();
+    return currentUser ? currentUser.userId : null; // Assicurati che `id` sia il campo corretto
   }
 
 

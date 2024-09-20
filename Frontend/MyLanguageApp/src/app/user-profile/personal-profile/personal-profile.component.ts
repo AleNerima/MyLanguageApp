@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../service/users.service';
 import { IUsers } from '../../Interfaces/iusers';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
+import { UserImageService } from '../../service/user-image.service';
 
 @Component({
   selector: 'app-personal-profile',
@@ -11,57 +12,64 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class PersonalProfileComponent implements OnInit {
   user: IUsers | null = null;
-  isLoading = true; // Stato di caricamento
-  errorMessage: string | null = null; // Per gestire gli errori
+  isLoading = true;
+  errorMessage: string | null = null;
 
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router,
+    private userImageService: UserImageService // Iniezione del servizio di immagini
   ) {}
 
   ngOnInit(): void {
+    const currentUser = this.authService.getCurrentUser();
+    console.log('Utente corrente:', currentUser);
     this.loadUserProfile();
   }
 
   loadUserProfile(): void {
     this.route.paramMap.subscribe(params => {
-      const userId = params.get('userId'); // Ottieni l'ID come stringa
+      const userId = params.get('userId');
 
       if (userId) {
-        // Carica il profilo per un altro utente
-        this.userService.getUser(+userId).subscribe(
-          (userData: IUsers) => {
-            this.user = userData;
-            this.isLoading = false;
-          },
-          (error) => {
-            console.error('Errore durante il caricamento del profilo:', error);
-            this.errorMessage = 'Si è verificato un errore durante il caricamento del profilo.';
-            this.isLoading = false;
-          }
-        );
+        this.fetchUserData(+userId);
       } else {
-        // Se non c'è userId nella rotta, carica il profilo dell'utente loggato
         const currentUser = this.authService.getCurrentUser();
         if (currentUser) {
-          this.userService.getUser(currentUser.userId).subscribe(
-            (userData: IUsers) => {
-              this.user = userData;
-              this.isLoading = false;
-            },
-            (error) => {
-              console.error('Errore durante il caricamento del profilo:', error);
-              this.errorMessage = 'Si è verificato un errore durante il caricamento del profilo.';
-              this.isLoading = false;
-            }
-          );
+          this.fetchUserData(currentUser.userId);
         } else {
-          console.error('Utente non loggato o dati mancanti');
           this.errorMessage = 'Utente non loggato o dati mancanti.';
           this.isLoading = false;
         }
       }
     });
+  }
+
+  fetchUserData(userId: number): void {
+    this.userService.getUser(userId).subscribe(
+      (userData: IUsers) => {
+        console.log('Dati utente:', userData);
+        this.user = userData;
+        this.loadUserImage(userData.imageData); // Carica l'immagine qui
+        this.isLoading = false;
+      },
+      (error) => {
+        this.errorMessage = 'Errore durante il caricamento del profilo: ' + error;
+        this.isLoading = false;
+      }
+    );
+  }
+
+  loadUserImage(imageData: string | null | undefined): void {
+    console.log('Image data received:', imageData);
+    this.user!.imageUrl = imageData && imageData.startsWith('data:image/jpeg;base64,')
+      ? imageData
+      : 'assets/images/defaultimage.png'; // Immagine di default
+  }
+
+  goToUploadImage(): void {
+    this.router.navigate(['/upload-image']); // Naviga al componente di upload
   }
 }

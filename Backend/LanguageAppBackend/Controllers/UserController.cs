@@ -24,7 +24,20 @@ namespace LanguageAppBackend.Controllers
             {
                 return NotFound("User not found");
             }
-            return Ok(user);
+
+            // Creazione di un oggetto di risposta con i dettagli dell'utente e dell'immagine
+            var response = new
+            {
+                userId = user.UserId,
+                username = user.Username,
+                email = user.Email,
+                nativeLanguage = user.NativeLanguage,
+                targetLanguage = user.TargetLanguage,
+                createdAt = user.CreatedAt,
+                imageData = user.UserImage?.ImageData // Assicurati di avere questa proprietà
+            };
+
+            return Ok(response);
         }
 
         [HttpPut("{id}")]

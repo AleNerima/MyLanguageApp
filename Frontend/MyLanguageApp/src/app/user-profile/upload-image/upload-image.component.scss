@@ -1,0 +1,45 @@
+.upload-image-container {
+  max-width: 400px; /* Larghezza massima per centrare il contenuto */
+  margin: 20px auto; /* Margine per centrare verticalmente */
+  padding: 20px; /* Padding per un po' di spazio interno */
+  border: 1px solid #ddd; /* Bordo leggero */
+  border-radius: 10px; /* Angoli arrotondati */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Ombra per un effetto di profondità */
+  background-color: #fff; /* Sfondo bianco */
+  text-align: center; /* Centra il testo */
+}
+
+.upload-image-container h2 {
+  margin-bottom: 20px; /* Spazio sotto il titolo */
+  font-size: 24px; /* Dimensione del titolo */
+  color: #333; /* Colore del titolo */
+}
+
+.file-input {
+  display: block; /* Rende l'input a blocco */
+  margin: 20px auto; /* Spazio sopra e sotto l'input */
+  padding: 10px; /* Padding per l'input */
+  border: 2px solid #007bff; /* Bordo blu */
+  border-radius: 5px; /* Angoli arrotondati */
+  cursor: pointer; /* Cambia il cursore quando si passa sopra */
+}
+
+.error-message {
+  color: rgb(0, 255, 115); /* Colore rosso per i messaggi di errore */
+  margin-top: 10px; /* Spazio sopra il messaggio di errore */
+}
+
+.back-button {
+  margin-top: 20px; /* Spazio sopra il pulsante */
+  padding: 10px 20px; /* Padding del pulsante */
+  background-color: #007bff; /* Colore di sfondo blu */
+  color: white; /* Colore del testo bianco */
+  border: none; /* Nessun bordo */
+  border-radius: 5px; /* Angoli arrotondati */
+  cursor: pointer; /* Cambia il cursore quando si passa sopra */
+  transition: background-color 0.3s; /* Transizione per il colore di sfondo */
+}
+
+.back-button:hover {
+  background-color: #0056b3; /* Colore più scuro al passaggio del mouse */
+}

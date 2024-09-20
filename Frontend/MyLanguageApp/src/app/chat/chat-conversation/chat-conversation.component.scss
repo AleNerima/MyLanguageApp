@@ -23,15 +23,14 @@
   word-wrap: break-word;
   font-size: 14px;
 }
-
-.my-message {
-  background-color: #dcf8c6;
+.other-message {
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
   margin-left: auto; /* Allinea i messaggi dell'utente corrente a destra */
   text-align: right;
 }
-
-.other-message {
-  background-color: #fff;
+.my-message {
+  background-color: #dcf8c6;
   border: 1px solid #e5e5e5;
   margin-right: auto; /* Allinea i messaggi dell'altro utente a sinistra */
 }

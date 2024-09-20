@@ -6,10 +6,12 @@
   {{ errorMessage }}
 </div>
 
-<div *ngIf="!isLoading && !errorMessage">
+<div *ngIf="!isLoading && !errorMessage" class="friend-list-container">
+  <h2 class="friend-list-title">I tuoi amici</h2>
   <ul class="friend-list">
-    <li *ngFor="let friend of friends" (click)="selectChat(friend.userId)">
-      <span>{{ friend.username }}</span>
+    <li *ngFor="let friend of friends" (click)="selectChat(friend.userId)" class="friend-item">
+      <span class="friend-avatar">{{ friend.username.charAt(0) }}</span>
+      <span class="friend-name">{{ friend.username }}</span>
     </li>
   </ul>
 </div>
