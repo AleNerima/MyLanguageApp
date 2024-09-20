@@ -18,6 +18,7 @@ export class ChatConversationComponent implements OnInit {
   userId: number = 0; // Utente loggato
   otherUserId: number | null = null; // ID dell'altro utente
 
+
   constructor(
     private route: ActivatedRoute,
     private chatService: ChatService,

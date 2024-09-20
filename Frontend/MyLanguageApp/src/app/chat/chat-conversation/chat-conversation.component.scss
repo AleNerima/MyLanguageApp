@@ -1,55 +1,75 @@
 .chat-container {
-  height: 80vh; /* Imposta un'altezza fissa per il contenitore della chat */
-  overflow-y: auto; /* Abilita lo scorrimento se i messaggi sono troppi */
-  padding: 10px;
-  border: 1px solid #ddd;
-  background: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-width: 800px;
+  margin: 5em auto; /* Centra l'area della chat */
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 10px;
 }
 
-.message {
-  margin-bottom: 10px;
-  padding: 10px;
-  border-radius: 5px;
-  background: #e1e1e1;
+.messages-container {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
 }
 
-.message.sent {
-  background: #d1ffd1; /* Verde chiaro per i messaggi inviati */
+.message-bubble {
+  max-width: 60%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 20px;
+  word-wrap: break-word;
+  font-size: 14px;
+}
+
+.my-message {
+  background-color: #dcf8c6;
+  margin-left: auto; /* Allinea i messaggi dell'utente corrente a destra */
   text-align: right;
 }
 
-.message.received {
-  background: #f1f0f0; /* Grigio chiaro per i messaggi ricevuti */
+.other-message {
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
+  margin-right: auto; /* Allinea i messaggi dell'altro utente a sinistra */
 }
 
-.timestamp {
-  display: block;
-  font-size: 0.8em;
-  color: #999;
+.message-text {
+  margin: 0;
 }
 
 .input-container {
   display: flex;
-  margin-top: 10px;
-}
-
-input {
-  flex: 1;
   padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  margin-right: 10px;
+  border-top: 1px solid #ddd;
+  background-color: #f1f1f1;
 }
 
-button {
-  padding: 10px 20px;
-  border: none;
-  background: #007bff;
+.message-input {
+  flex-grow: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.send-button {
+  background-color: #4CAF50;
   color: white;
-  border-radius: 5px;
+  border: none;
+  padding: 10px 20px;
+  margin-left: 10px;
+  border-radius: 10px;
   cursor: pointer;
 }
 
-button:hover {
-  background: #0056b3;
+.send-button:hover {
+  background-color: #45a049;
+}
+
+.error {
+  color: red;
+  text-align: center;
 }
