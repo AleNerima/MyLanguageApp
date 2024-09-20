@@ -48,7 +48,7 @@ builder.Services.AddCors(options =>
         });
 });
 
-// Aggiungi i servizi
+// servizi
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IDeckService, DeckService>();

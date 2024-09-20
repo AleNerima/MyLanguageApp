@@ -9,7 +9,7 @@ namespace LanguageAppBackend.Models
         public int UserImageId { get; set; }
 
         [Required]
-        public int UserId { get; set; }  // Foreign key
+        public int UserId { get; set; }  
 
         [Required]
         [MaxLength(10485760)]  // Limite di 10MB

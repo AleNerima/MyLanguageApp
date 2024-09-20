@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using LanguageAppBackend.Services;
-using Microsoft.EntityFrameworkCore;
 
 namespace LanguageAppBackend.Controllers
 {

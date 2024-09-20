@@ -34,7 +34,7 @@ namespace LanguageAppBackend.Controllers
                 nativeLanguage = user.NativeLanguage,
                 targetLanguage = user.TargetLanguage,
                 createdAt = user.CreatedAt,
-                imageData = user.UserImage?.ImageData // Assicurati di avere questa proprietà
+                imageData = user.UserImage?.ImageData 
             };
 
             return Ok(response);
@@ -56,7 +56,7 @@ namespace LanguageAppBackend.Controllers
                 return NotFound();
             }
 
-            // Restituisci l'utente aggiornato
+            // Restituisce l'utente aggiornato
             return Ok(updatedUser);
         }
 

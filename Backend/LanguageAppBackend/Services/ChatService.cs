@@ -48,7 +48,7 @@ namespace LanguageAppBackend.Services
             _context.ChatMessages.Add(message);
             await _context.SaveChangesAsync();
 
-            // Update Message Status for the receiver
+            
             var messageStatus = new MessageStatus
             {
                 MessageId = message.MessageId,

@@ -38,7 +38,7 @@ namespace LanguageAppBackend.Services
                 Definition = viewModel.Definition,
                 DifficultyLevel = viewModel.DifficultyLevel,
                 DeckId = viewModel.DeckId
-                // Rimosso UserId
+                
             };
 
             _context.Flashcards.Add(flashcard);

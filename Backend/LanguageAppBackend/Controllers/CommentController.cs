@@ -1,5 +1,4 @@
 ﻿using System.Security.Claims;
-using LanguageAppBackend.Models;
 using LanguageAppBackend.Models.PostCommentViewModel;
 using LanguageAppBackend.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;

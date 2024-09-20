@@ -71,7 +71,7 @@ public class FriendshipController : ControllerBase
         if (friendship == null)
             return NotFound();
 
-        friendship.Status = (FriendshipStatus)model.Status; // Convertilo in enum
+        friendship.Status = (FriendshipStatus)model.Status; 
         var updated = await _friendshipService.UpdateFriendshipAsync(friendship);
 
         if (!updated)
@@ -93,7 +93,7 @@ public class FriendshipController : ControllerBase
         return NotFound();
     }
 
-    // In FriendshipController.cs (o un nome simile)
+    
     [HttpGet("checkRequest/{userId1}/{userId2}")]
     public IActionResult CheckExistingRequest(int userId1, int userId2)
     {

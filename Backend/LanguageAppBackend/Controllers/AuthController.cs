@@ -37,7 +37,7 @@ namespace LanguageAppBackend.Controllers
         public async Task<IActionResult> Logout()
         {
             await _authService.LogoutAsync();
-            return NoContent(); // Il logout è gestito lato client, quindi non c'è necessità di fare nulla qui.
+            return NoContent(); // Il logout è gestito lato client.
         }
     }
 }

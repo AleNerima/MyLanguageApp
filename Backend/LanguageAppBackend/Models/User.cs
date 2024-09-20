@@ -37,13 +37,13 @@ namespace LanguageAppBackend.Models
         [JsonIgnore]
         public ICollection<Comment> Comments { get; set; }
         [JsonIgnore]
-        public ICollection<Friendship> Friendships1 { get; set; } // Friendships where the user is the first user
+        public ICollection<Friendship> Friendships1 { get; set; } 
         [JsonIgnore]
-        public ICollection<Friendship> Friendships2 { get; set; } // Friendships where the user is the second user
+        public ICollection<Friendship> Friendships2 { get; set; } 
         [JsonIgnore]
-        public ICollection<Chat> ChatsAsUser1 { get; set; } // Chats where the user is the first participant
+        public ICollection<Chat> ChatsAsUser1 { get; set; } 
         [JsonIgnore]
-        public ICollection<Chat> ChatsAsUser2 { get; set; } // Chats where the user is the second participant
+        public ICollection<Chat> ChatsAsUser2 { get; set; } 
         [JsonIgnore]
         public ICollection<MessageStatus> MessageStatuses { get; set; }
         [JsonIgnore]

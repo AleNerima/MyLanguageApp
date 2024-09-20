@@ -14,7 +14,7 @@ namespace LanguageAppBackend.Models
         [Required]
         public int UserId2 { get; set; }  // Utente che riceve la richiesta
 
-        // Aggiungi lo stato per tracciare la richiesta di amicizia
+        // Aggiunge lo stato per tracciare la richiesta di amicizia
         [Required]
         public FriendshipStatus Status { get; set; } = FriendshipStatus.Pending;
 

@@ -17,8 +17,8 @@ namespace LanguageAppBackend.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Friendship> Friendships { get; set; }
         public DbSet<Chat> Chats { get; set; }
-        public DbSet<ChatMessage> ChatMessages { get; set; } // Aggiungi questo DbSet per i messaggi della chat
-        public DbSet<MessageStatus> MessageStatuses { get; set; } // Aggiungi questo DbSet per lo stato dei messaggi
+        public DbSet<ChatMessage> ChatMessages { get; set; } 
+        public DbSet<MessageStatus> MessageStatuses { get; set; } 
         public DbSet<UserImage> UserImages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -107,7 +107,7 @@ namespace LanguageAppBackend.Data
             // Configuring the relationships for MessageStatus
             modelBuilder.Entity<MessageStatus>()
                 .HasOne(ms => ms.ChatMessage)
-                .WithMany() // Not necessary to define a collection on ChatMessage
+                .WithMany() 
                 .HasForeignKey(ms => ms.MessageId)
                 .OnDelete(DeleteBehavior.Cascade);
 
